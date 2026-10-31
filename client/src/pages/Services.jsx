@@ -240,55 +240,55 @@ export default function Services() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Languages</h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xs font-black uppercase tracking-widest text-primary dark:text-primary-light mb-4">Languages</h3>
               <div className="flex flex-wrap gap-2">
                 {techStack.languages.map((l, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs text-slate-300 font-medium">
+                  <span key={i} className="px-3 py-1 bg-slate-200/60 dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-300 font-medium">
                     {l}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Frameworks</h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xs font-black uppercase tracking-widest text-primary dark:text-primary-light mb-4">Frameworks</h3>
               <div className="flex flex-wrap gap-2">
                 {techStack.frameworks.map((f, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs text-slate-300 font-medium">
+                  <span key={i} className="px-3 py-1 bg-slate-200/60 dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-300 font-medium">
                     {f}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">AI & Data</h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xs font-black uppercase tracking-widest text-primary dark:text-primary-light mb-4">AI & Data</h3>
               <div className="flex flex-wrap gap-2">
                 {techStack.aiData.map((a, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs text-slate-300 font-medium">
+                  <span key={i} className="px-3 py-1 bg-slate-200/60 dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-300 font-medium">
                     {a}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Cloud & Ops</h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xs font-black uppercase tracking-widest text-primary dark:text-primary-light mb-4">Cloud & Ops</h3>
               <div className="flex flex-wrap gap-2">
                 {techStack.cloudOps.map((c, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs text-slate-300 font-medium">
+                  <span key={i} className="px-3 py-1 bg-slate-200/60 dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-300 font-medium">
                     {c}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Databases</h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xs font-black uppercase tracking-widest text-primary dark:text-primary-light mb-4">Databases</h3>
               <div className="flex flex-wrap gap-2">
                 {techStack.databases.map((d, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs text-slate-300 font-medium">
+                  <span key={i} className="px-3 py-1 bg-slate-200/60 dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-300 font-medium">
                     {d}
                   </span>
                 ))}

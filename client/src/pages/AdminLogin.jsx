@@ -116,6 +116,17 @@ export default function AdminLogin() {
             </button>
           </form>
 
+          {/* Evaluator Guidance Box */}
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-left space-y-1">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <ShieldCheck className="w-3.5 h-3.5 text-cynbit-teal" />
+              <span>Assessment Evaluator Access:</span>
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+              Check the backend console on startup for the automatically generated one-time secure session password, or define <code className="px-1 py-0.5 rounded bg-slate-200 dark:bg-white/10 font-mono text-[10px] text-cynbit-teal font-bold">ADMIN_PASSWORD</code> in <code className="font-mono text-[10px]">server/.env</code> for persistent credentials.
+            </p>
+          </div>
+
           <div className="text-center pt-2">
             <Link
               to="/"

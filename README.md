@@ -198,26 +198,29 @@ Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## 🔐 Admin Authentication Setup
+## 🔐 Admin & Evaluator Authentication Setup
 
 The **Admin Inquiry Dashboard** (`/admin/dashboard`) is strictly protected and requires a valid JWT Bearer token obtained via `/api/admin/login`.
 
-To provision an administrative account securely:
+To provision credentials safely without exposing passwords:
 
-1. **Option A: Via Environment Variables (Recommended for local dev)**  
+1. **Option A: Automatic One-Time Session Password (Zero-Config Development)**  
+   When the server boots in development mode without an `ADMIN_PASSWORD` defined, it automatically generates a cryptographically secure random one-time session password and logs it directly to your terminal.
+
+2. **Option B: Evaluator Demo Provisioning Script**  
+   From the `server` directory, run:
+   ```bash
+   node scripts/createEvaluator.js
+   ```
+   This generates an on-demand reviewer account (`evaluator@cynbit.test`) with a random password printed strictly to stdout.
+
+3. **Option C: Environment Variables (Recommended for local dev & production)**  
    Specify credentials in `server/.env`:
    ```bash
    ADMIN_EMAIL=your-admin@cynbit.in
    ADMIN_PASSWORD=YourStrongPasswordHere
    ```
-   When the server boots, it checks if an admin exists and provisions it with `bcrypt` (10 rounds).
-
-2. **Option B: Safe CLI Seeding Script**  
-   From the `server` directory, run:
-   ```bash
-   node scripts/seedAdmin.js
-   ```
-   If no `ADMIN_PASSWORD` is defined in `.env`, the script automatically generates a cryptographically secure random one-time password and prints it securely to stdout.
+   When the server boots, it provisions/updates the administrator account with `bcrypt` (10 rounds).
 
 *Security Notice: Passwords are encrypted with bcrypt, never committed to git, excluded from JSON serialization via Mongoose `toJSON` transforms, and never returned in API payloads.*
 
