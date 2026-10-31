@@ -40,6 +40,39 @@ export const seedDatabase = async () => {
       }
     }
 
+    // Seed or synchronize evaluator demo account in the active database instance
+    const evaluatorEmail = (process.env.EVALUATOR_EMAIL || 'evaluator@cynbit.test').toLowerCase();
+    let evaluatorPassword = process.env.EVALUATOR_PASSWORD;
+
+    let existingEvaluator = await User.findOne({ email: evaluatorEmail });
+    if (!existingEvaluator) {
+      if (!evaluatorPassword || evaluatorPassword.trim() === '') {
+        evaluatorPassword = crypto.randomBytes(8).toString('hex') + '!E1';
+        console.log(`\n=======================================================`);
+        console.log(`🔐 Evaluator Demo Account Initialized (Active Database)`);
+        console.log(`   Email:    ${evaluatorEmail}`);
+        console.log(`   Password: ${evaluatorPassword}`);
+        console.log(`   Role:     evaluator (Restricted assessment access)`);
+        console.log(`=======================================================\n`);
+      }
+      const newEvaluator = new User({
+        name: 'Technical Assessment Evaluator',
+        email: evaluatorEmail,
+        password: evaluatorPassword,
+        role: 'evaluator',
+      });
+      await newEvaluator.save();
+    } else {
+      if (evaluatorPassword && evaluatorPassword.trim() !== '') {
+        existingEvaluator.password = evaluatorPassword;
+        existingEvaluator.role = 'evaluator';
+        await existingEvaluator.save();
+        console.log(`✅ Evaluator password updated from environment for: ${evaluatorEmail}`);
+      } else {
+        console.log(`Evaluator account (${evaluatorEmail}) verified in active database.`);
+      }
+    }
+
     // Seed realistic sample inquiries if database is empty (clearly labeled as demonstration data)
     const count = await Inquiry.countDocuments();
     if (count === 0) {

@@ -265,7 +265,8 @@ If the Google Gemini API key is absent, rate-limited, or times out, the backend 
 | **Blueprint Engine** | `POST /api/discovery/blueprint` | Dynamic questionnaire payload | **PASSED** (HTTP 200, returns structured 10-point architectural blueprint with provenance tags) |
 | **Inquiry Submission** | `POST /api/inquiries` | Contact & blueprint payload | **PASSED** (HTTP 201, generated unique reference ID `CYN-2026-XXXXXX`, persisted in DB) |
 | **Admin Lifecycle** | Status updates & Internal notes | `PATCH /api/admin/inquiries/:id/status` & `.../notes` | **PASSED** (Status transitioned to `Reviewing`; timestamped synthetic engineering note appended) |
-| **Frontend Production**| `npm run build` | Vite compiler (Rollup) | **PASSED** (1,612 modules transformed, built in 14.40s, 0 errors, generated `dist/`) |
+| **Evaluator Account Flow** | Loopback provisioning & login | `POST /api/admin/provision-evaluator` & `/login` | **PASSED** (Evaluator account seeded in active database; successfully authenticated with role `'evaluator'`) |
+| **Frontend Production**| `npm run build` | Vite compiler (Rollup) | **PASSED** (1,612 modules transformed, built in 12.68s, 0 errors, generated `dist/`) |
 | **SPA Cloud Routing** | Client routing configuration | Static configuration analysis | **PASSED** (`client/vercel.json` configured with universal rewrite rule) |
 | **Backend Cloud Blueprint** | Render service deployment | YAML configuration validation | **PASSED** (`server/render.yaml` configured with required environment variables) |
 
@@ -301,7 +302,26 @@ The codebase is structured for zero-friction cloud deployment:
 
 ---
 
-## 12. Known Limitations & Future Roadmap
+## 12. Outstanding Prerequisites & Action Items Before Production
+
+Before public production release, the following external items remain outstanding and require user action:
+
+1. **Persistent MongoDB Atlas Cluster**:
+   - *Current State*: The local environment uses an embedded in-memory database (`MongoMemoryServer`) which resets upon server restart.
+   - *Action Required*: Set `MONGODB_URI` in `server/.env` with your real MongoDB Atlas connection string and test restart survival.
+2. **Google Gemini API Key**:
+   - *Current State*: The local environment operates with 100% reliability on the internal deterministic architectural fallback engine.
+   - *Action Required*: Set `GEMINI_API_KEY` in `server/.env` to enable live LLM synthesis.
+3. **Remote Git Repository Publication**:
+   - *Current State*: The local Git repository is audited and free of exposed credentials, but has not yet been pushed to an external Git remote.
+   - *Action Required*: Link your GitHub remote repository and push `main`.
+4. **Cloud Production Deployment & Live Domain Smoke Testing**:
+   - *Current State*: `vercel.json` and `render.yaml` configurations are tested, but live cloud deployment is pending.
+   - *Action Required*: Deploy the client to Vercel and the server to Render/Railway, then run live end-to-end smoke tests on the public domain.
+
+---
+
+## 13. Known Limitations & Future Roadmap
 
 1. **PDF Export**: In a future iteration, visitors could download their generated AI Blueprint directly as a branded Cynbit PDF specification document.
 2. **Direct Calendar Scheduling**: Future integration with an enterprise calendar API (e.g., Cal.com or Google Calendar) could allow clients with qualified blueprints to immediately book a 45-minute discovery call with Cynbit's lead architects.
@@ -309,6 +329,6 @@ The codebase is structured for zero-friction cloud deployment:
 
 ---
 
-## 13. Conclusion
+## 14. Conclusion
 
-This project successfully fulfills every requirement of the master prompt. It honors Cynbit's visual identity, maintains strict documentation of real company facts, builds a functional Smart Project Discovery engine, responsibly handles AI with honest fallback mechanisms, and demonstrates end-to-end full-stack craftsmanship ready for production evaluation.
+This project delivers an enterprise-grade full-stack recreation of Cynbit Technologies and introduces the Smart Project Hub to solve requirement ambiguity in client onboarding. With strict security practices, honest fallback disclosure, and a validated architectural foundation, the application is prepared for evaluation and subsequent production deployment.

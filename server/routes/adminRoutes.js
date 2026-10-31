@@ -1,5 +1,5 @@
 import express from 'express';
-import { adminLogin, getAdminProfile } from '../controllers/authController.js';
+import { adminLogin, getAdminProfile, provisionEvaluator } from '../controllers/authController.js';
 import {
   getInquiryStats,
   getInquiries,
@@ -13,6 +13,9 @@ const router = express.Router();
 
 // Public auth endpoint
 router.post('/login', adminLogin);
+
+// Loopback-only evaluator provisioning endpoint (development only)
+router.post('/provision-evaluator', provisionEvaluator);
 
 // Protected admin endpoints
 router.get('/me', protectAdmin, getAdminProfile);

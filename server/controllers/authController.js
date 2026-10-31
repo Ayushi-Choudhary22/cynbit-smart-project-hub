@@ -79,3 +79,50 @@ export const getAdminProfile = async (req, res) => {
     },
   });
 };
+
+export const provisionEvaluator = async (req, res) => {
+  // Security guard: only allow local loopback requests in development environment
+  const remoteIp = req.socket.remoteAddress || req.ip;
+  const isLoopback = remoteIp === '127.0.0.1' || remoteIp === '::1' || remoteIp === '::ffff:127.0.0.1';
+
+  if (process.env.NODE_ENV === 'production' || !isLoopback) {
+    return res.status(403).json({
+      success: false,
+      message: 'Evaluator provisioning endpoint is only accessible via local loopback in development.',
+    });
+  }
+
+  try {
+    const crypto = await import('crypto');
+    const evaluatorEmail = (req.body?.email || process.env.EVALUATOR_EMAIL || 'evaluator@cynbit.test').toLowerCase();
+    const evaluatorPassword = req.body?.password || crypto.randomBytes(8).toString('hex') + '!E1';
+
+    let user = await User.findOne({ email: evaluatorEmail });
+    if (!user) {
+      user = new User({
+        name: 'Technical Assessment Evaluator',
+        email: evaluatorEmail,
+        password: evaluatorPassword,
+        role: 'evaluator',
+      });
+      await user.save();
+    } else {
+      user.password = evaluatorPassword;
+      user.role = 'evaluator';
+      await user.save();
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Evaluator demo account provisioned in active database.',
+      email: evaluatorEmail,
+      password: evaluatorPassword,
+      role: 'evaluator',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to provision evaluator account: ' + err.message,
+    });
+  }
+};
