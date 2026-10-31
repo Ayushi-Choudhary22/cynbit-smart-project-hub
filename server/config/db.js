@@ -1,4 +1,12 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Ensure reliable SRV DNS resolution for MongoDB Atlas across local and container environments
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // Retain system default if setServers is unavailable
+}
 
 let memoryServer = null;
 
