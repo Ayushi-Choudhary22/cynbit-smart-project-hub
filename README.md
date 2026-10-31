@@ -309,15 +309,18 @@ Validates and persists a client project inquiry and blueprint.
 ## ☁️ Deployment Guide
 
 ### Frontend Deployment (Vercel)
-1. Push the code to your GitHub repository.
-2. In Vercel, click **New Project** and select the repository.
-3. Set **Root Directory** to `client`.
+1. Push the latest code to your GitHub repository.
+2. In [Vercel](https://vercel.com), click **Add New Project** and select your repository: `cynbit-smart-project-hub`.
+3. Set **Root Directory** to `client` (Click *Edit* next to Root Directory and choose `client`).
 4. Framework Preset: **Vite**.
-5. Build Command: `npm run build` (outputs to `dist`).
-6. A configured `client/vercel.json` is included with SPA rewrites (`"source": "/(.*)", "destination": "/index.html"`) to ensure deep routing works cleanly.
-7. Set Environment Variable:
-   - `VITE_API_URL`: Your deployed backend URL (e.g., `https://cynbit-api.onrender.com`).
-8. Deploy!
+5. Build Command: `npm run build` (Output Directory: `dist`).
+6. A configured [client/vercel.json](file:///client/vercel.json) is included with SPA rewrites (`"source": "/(.*)", "destination": "/index.html"`) ensuring internal routes load cleanly on direct page refresh.
+7. Configure Environment Variable in Vercel:
+   - **Key**: `VITE_API_URL`
+   - **Value**: `https://cynbit-smart-project-hub.onrender.com`
+   *(Note: The client application automatically appends the `/api` path and prevents duplicate `/api/api` paths, so entering either the base domain or the `/api` endpoint works seamlessly).*
+   - **Security Notice**: Do **NOT** add any backend secrets (`MONGODB_URI`, `GEMINI_API_KEY`, `JWT_SECRET`, or passwords) to Vercel. Vite bundles client variables into public JavaScript assets.
+8. Click **Deploy**!
 
 ### Backend Deployment (Render / Railway)
 1. A ready-to-use Render Blueprint is provided in `server/render.yaml`.

@@ -1,4 +1,21 @@
-const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+/**
+ * Resolves the backend API base URL.
+ * Automatically appends '/api' if not present, strips trailing slashes,
+ * and prevents duplicate '/api/api' paths.
+ * Supports:
+ * - Local dev (empty or http://localhost:5000)
+ * - Production (https://cynbit-smart-project-hub.onrender.com)
+ */
+const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (!envUrl || envUrl.trim() === '') {
+    return '/api';
+  }
+  const cleanUrl = envUrl.trim().replace(/\/+$/, '');
+  return cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
+};
+
+const API_BASE = getApiBaseUrl();
 
 const handleResponse = async (res) => {
   const data = await res.json().catch(() => ({}));
