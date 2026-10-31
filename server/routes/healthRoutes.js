@@ -16,10 +16,11 @@ router.get('/', (req, res) => {
     database: {
       status: states[dbState] || 'Unknown',
       type: databaseConfig.type,
+      databaseName: databaseConfig.dbName || (databaseConfig.isPersistent ? 'cynbit_hub' : 'in-memory'),
       isProductionPersistent: databaseConfig.isPersistent,
       isFallbackMode: databaseConfig.isFallback,
       notice: databaseConfig.isPersistent
-        ? 'Connected to production persistent database.'
+        ? 'Connected to production persistent MongoDB Atlas cluster.'
         : 'Running on development fallback session database. Configure MONGODB_URI for production persistence.',
     },
     version: '1.0.0',

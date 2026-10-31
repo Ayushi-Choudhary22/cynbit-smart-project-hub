@@ -13,23 +13,38 @@ export const connectDB = async () => {
   const uri = process.env.MONGODB_URI;
 
   if (uri && uri.trim() !== '') {
+    // Check if the placeholder '<db_password>' is still present
+    if (uri.includes('<db_password>') || uri.includes('<password>')) {
+      const configErr = new Error(
+        "MONGODB_URI contains '<db_password>' placeholder. Please replace it with your actual MongoDB Atlas database password in server/.env."
+      );
+      console.error('❌ Database Configuration Error:', configErr.message);
+      throw configErr;
+    }
+
     try {
-      console.log('Connecting to provided MongoDB URI...');
-      await mongoose.connect(uri);
-      console.log('✅ Connected to MongoDB Atlas / persistent database successfully.');
+      console.log('Connecting to MongoDB Atlas cluster (database: cynbit_hub)...');
+      await mongoose.connect(uri, {
+        dbName: 'cynbit_hub',
+      });
+      console.log('✅ Connected to MongoDB Atlas cluster successfully. Active database: cynbit_hub.');
       databaseConfig = {
         type: 'MongoDB Atlas (Persistent Storage)',
         isPersistent: true,
         isFallback: false,
+        dbName: 'cynbit_hub',
         connectedAt: new Date().toISOString(),
       };
       return;
     } catch (err) {
-      console.error('❌ Failed to connect to provided MONGODB_URI:', err.message);
-      if (process.env.NODE_ENV === 'production') {
-        throw new Error(`Production database connection failed: ${err.message}`);
-      }
-      console.log('Falling back to MongoMemoryServer for development assessment...');
+      // Strip any sensitive credentials from the error message before logging
+      const sanitizedMessage = err.message.replace(
+        /mongodb(\+srv)?:\/\/([^:]+):([^@]+)@/i,
+        'mongodb$1://$2:****@'
+      );
+      console.error('❌ Failed to connect to MongoDB Atlas:', sanitizedMessage);
+      // Strictly do not fall back to MongoMemoryServer when MONGODB_URI is explicitly configured
+      throw new Error(`MongoDB Atlas connection failed: ${sanitizedMessage}`);
     }
   } else {
     console.log('ℹ️ No MONGODB_URI specified in environment.');
