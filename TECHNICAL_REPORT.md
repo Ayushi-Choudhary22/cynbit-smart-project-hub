@@ -253,18 +253,30 @@ If the Google Gemini API key is absent, rate-limited, or times out, the backend 
 
 | Test Category | Test Case | Method | Result / Evidence |
 | :--- | :--- | :--- | :--- |
+| **Git History Security** | Full history credential scan (`git log -S`) | Binary & commit scan across all revisions | **PASSED** (Old credentials expunged; 0 occurrences in commit tree or object DB) |
 | **Backend Health** | `GET /api/health` | REST request | **PASSED** (HTTP 200, returns status, timestamp, DB connection type & fallback notice) |
 | **Database Audit** | In-Memory vs Atlas persistence check | Diagnostic health endpoint & schema analysis | **PASSED** (Identified active `MongoMemoryServer` fallback; added explicit production guard requiring `MONGODB_URI` when `NODE_ENV=production`) |
+| **Security Audit** | Old password invalidation check | Attempt login with previous default password | **PASSED** (HTTP 401: `"Invalid email or password"`. Previous credentials completely unusable) |
 | **Security Audit** | Unauthenticated admin endpoint access | REST request to `/api/admin/me` without Bearer token | **PASSED** (HTTP 401 Unauthorized: `"No authorization token provided"`) |
 | **Security Audit** | Password exclusion in User API | Unit test on `User.toJSON()` transform | **PASSED** (`password` field stripped on serialization) |
 | **Security Audit** | Auto-Fill removal | Code audit of `client/src/pages/AdminLogin.jsx` | **PASSED** (No auto-fill buttons or hardcoded credentials remain) |
 | **Website Accuracy** | Official Website Comparison (`cynbit.in`) | Content & structural audit against live site | **PASSED** (Removed fictional testimonials and growth stats; replaced with verified **Cynbit Edge** pillars and **Manav Seva Trust** social partnership) |
+| **Demo Data Sanitization**| Fictional employee attribution check | Code audit of `server/scripts/seedAdmin.js` | **PASSED** (Removed real staff attributions; all demo notes labeled as synthetic evaluator test data) |
 | **Blueprint Engine** | `POST /api/discovery/blueprint` | Dynamic questionnaire payload | **PASSED** (HTTP 200, returns structured 10-point architectural blueprint with provenance tags) |
 | **Inquiry Submission** | `POST /api/inquiries` | Contact & blueprint payload | **PASSED** (HTTP 201, generated unique reference ID `CYN-2026-XXXXXX`, persisted in DB) |
-| **Admin Lifecycle** | Status updates & Internal notes | `PATCH /api/admin/inquiries/:id/status` & `.../notes` | **PASSED** (Status transitioned to `Reviewing`; timestamped engineering note appended) |
+| **Admin Lifecycle** | Status updates & Internal notes | `PATCH /api/admin/inquiries/:id/status` & `.../notes` | **PASSED** (Status transitioned to `Reviewing`; timestamped synthetic engineering note appended) |
 | **Frontend Production**| `npm run build` | Vite compiler (Rollup) | **PASSED** (1,612 modules transformed, built in 14.40s, 0 errors, generated `dist/`) |
 | **SPA Cloud Routing** | Client routing configuration | Static configuration analysis | **PASSED** (`client/vercel.json` configured with universal rewrite rule) |
 | **Backend Cloud Blueprint** | Render service deployment | YAML configuration validation | **PASSED** (`server/render.yaml` configured with required environment variables) |
+
+### Transparent Verification Status of External Services
+
+| External Service | Configured in Environment? | Test Result | Transparent Status |
+| :--- | :---: | :--- | :--- |
+| **MongoDB Atlas** | **No** (`MONGODB_URI` empty) | Server automatically booted `MongoMemoryServer` fallback | **Not Configured / Unverified**. Persistence across server restarts is NOT verified locally. Requires Atlas cluster URI for production. |
+| **Google Gemini API** | **No** (`GEMINI_API_KEY` empty) | Server automatically invoked deterministic architectural engine | **Not Configured / Unverified**. Live LLM calls are NOT verified locally. Deterministic fallback engine is operating cleanly and honestly labeled. |
+| **In-Memory Database** | **Yes** (Embedded) | Inquiries created and retrievable during session | **Verified Operational** (Development session storage only). |
+| **Deterministic Engine** | **Yes** (Internal) | Structured 10-point blueprints generated | **Verified Operational**. |
 
 ---
 
