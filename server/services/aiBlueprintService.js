@@ -157,12 +157,11 @@ export const generateAIBlueprint = async (category, answers) => {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey || apiKey.trim() === '') {
-    console.log('Gemini API key not configured. Using intelligent deterministic blueprint engine.');
+    console.log('ℹ️ Gemini API key not configured. Using intelligent deterministic blueprint engine.');
     return generateDeterministicBlueprint(category, answers);
   }
 
-  try {
-    const prompt = `
+  const prompt = `
 You are a Principal Software Architect at Cynbit Technologies, an elite AI automation and software engineering firm in Jaipur, India.
 A prospective client has completed our Smart Project Discovery questionnaire.
 Analyze their inputs and generate a structured, highly professional Project Blueprint in JSON format.
@@ -193,38 +192,66 @@ Return ONLY valid JSON matching this exact schema:
 }
 `;
 
-    const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        contents: [
-          {
-            parts: [{ text: prompt }]
+  // Candidate models in preference order based on active Google Gemini API availability
+  const candidateModels = [
+    process.env.GEMINI_MODEL,
+    'gemini-3.5-flash-lite',
+    'gemini-3.1-flash-lite',
+    'gemini-flash-latest',
+    'gemini-1.5-flash',
+  ].filter(Boolean);
+
+  let lastError = null;
+
+  for (const model of candidateModels) {
+    try {
+      const response = await axios.post(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+        {
+          contents: [
+            {
+              parts: [{ text: prompt }]
+            }
+          ],
+          generationConfig: {
+            temperature: 0.2,
+            responseMimeType: 'application/json'
           }
-        ],
-        generationConfig: {
-          temperature: 0.2,
-          responseMimeType: "application/json"
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': apiKey,
+          },
+          timeout: 20000
         }
-      },
-      { timeout: 15000 }
-    );
+      );
 
-    const candidates = response.data?.candidates;
-    if (candidates && candidates.length > 0) {
-      const text = candidates[0].content?.parts[0]?.text;
-      const parsed = JSON.parse(text);
-      return {
-        ...parsed,
-        engineUsed: 'gemini-1.5-flash',
-        generatedAt: new Date().toISOString()
-      };
+      const candidates = response.data?.candidates;
+      if (candidates && candidates.length > 0) {
+        const text = candidates[0].content?.parts[0]?.text;
+        const parsed = JSON.parse(text);
+        return {
+          ...parsed,
+          engineUsed: `gemini-api (${model})`,
+          modelUsed: model,
+          source: 'gemini_api',
+          generatedAt: new Date().toISOString()
+        };
+      }
+    } catch (err) {
+      // Capture sanitized error without leaking API key
+      const status = err.response?.status;
+      const apiErrMsg = err.response?.data?.error?.message || err.message;
+      lastError = `${status ? `HTTP ${status}: ` : ''}${apiErrMsg}`;
+      console.warn(`⚠️ Gemini model [${model}] unavailable (${lastError}). Trying next candidate...`);
     }
-
-    throw new Error('No candidate content returned from Gemini API');
-  } catch (err) {
-    console.warn('⚠️ Gemini AI Blueprint generation error:', err.message, '- Falling back to deterministic engine.');
-    const fallback = generateDeterministicBlueprint(category, answers);
-    fallback.engineUsed = 'deterministic-fallback (API offline)';
-    return fallback;
   }
+
+  console.warn('⚠️ All Gemini model attempts failed or API unavailable. Falling back to deterministic architectural engine.', lastError ? `Last error: ${lastError}` : '');
+  const fallback = generateDeterministicBlueprint(category, answers);
+  fallback.engineUsed = 'deterministic-fallback (Gemini unavailable)';
+  fallback.source = 'deterministic_fallback';
+  fallback.lastError = lastError;
+  return fallback;
 };

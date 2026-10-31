@@ -624,8 +624,8 @@ export default function Discovery() {
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-cynbit-teal flex-shrink-0" />
                     <span>
-                      <strong>Blueprint Status:</strong> {blueprintMeta?.source === 'gemini_api' 
-                        ? 'Generated via Gemini 1.5 LLM Gateway' 
+                      <strong>Blueprint Status:</strong> {blueprintMeta?.source === 'gemini_api' || String(blueprintMeta?.source).toLowerCase().includes('gemini')
+                        ? 'Generated via Gemini AI (Live LLM Gateway)' 
                         : 'Synthesized via Cynbit Architectural Engine (Deterministic Fallback)'}
                     </span>
                   </div>
