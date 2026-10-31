@@ -62,7 +62,7 @@ export const generateDeterministicBlueprint = (category, answers) => {
         `Fallback logic and graceful degradation when upstream APIs experience rate limits.`
       ],
       techConsiderations: [
-        `LLM Provider: Gemini 1.5 Flash / Pro with function-calling capabilities.`,
+        `LLM Provider: Google Gemini (gemini-3.5-flash-lite / Pro) with function-calling capabilities.`,
         `Vector Database: Pinecone or pgvector for semantic knowledge retrieval.`,
         `Orchestration: LangChain or custom agent state machine for deterministic task execution.`,
         `Security: Prompt injection defense, PII sanitization, and audit logging.`
@@ -192,14 +192,14 @@ Return ONLY valid JSON matching this exact schema:
 }
 `;
 
-  // Candidate models in preference order based on active Google Gemini API availability
-  const candidateModels = [
-    process.env.GEMINI_MODEL,
-    'gemini-3.5-flash-lite',
+  // Candidate models in preference order:
+  // 1. Primary: gemini-3.5-flash-lite (or custom GEMINI_MODEL override)
+  // 2. Secondary fallback: gemini-3.1-flash-lite
+  const primaryModel = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
+  const candidateModels = Array.from(new Set([
+    primaryModel,
     'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-1.5-flash',
-  ].filter(Boolean);
+  ])).filter(Boolean);
 
   let lastError = null;
 
