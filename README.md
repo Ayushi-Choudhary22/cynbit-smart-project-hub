@@ -3,6 +3,11 @@
 > **Technical Assessment for Full Stack Developer Intern**  
 > An autonomous, high-fidelity recreation of the official [Cynbit Technologies](https://www.cynbit.in/) web platform, integrated with an innovative enterprise feature: **Cynbit Smart Project Hub (Discovery & AI Blueprint Engine)** and a protected **Admin Inquiry Command Center**.
 
+> 🌐 **Live Web Application (Vercel)**: [https://cynbit-smart-project-hub.vercel.app](https://cynbit-smart-project-hub.vercel.app)  
+> ⚡ **Live Backend API (Render)**: [https://cynbit-smart-project-hub.onrender.com](https://cynbit-smart-project-hub.onrender.com)  
+> 🩺 **Live Health Diagnostics**: [https://cynbit-smart-project-hub.onrender.com/api/health](https://cynbit-smart-project-hub.onrender.com/api/health)  
+> 📦 **GitHub Repository**: [https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub](https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub)
+
 ---
 
 ## 📌 Executive Summary

@@ -2,9 +2,13 @@
 ## Project: Cynbit Technologies Recreation + Smart Project Hub
 
 **Candidate Role:** Full Stack Developer Intern  
-**Project Repository:** `Cynbit`  
+**Project Repository:** `cynbit-smart-project-hub`  
 **Assessment Date:** October 2026  
 **Reference Website:** [https://www.cynbit.in/](https://www.cynbit.in/)  
+**Live Frontend Application (Vercel):** [https://cynbit-smart-project-hub.vercel.app](https://cynbit-smart-project-hub.vercel.app)  
+**Live Backend Service (Render):** [https://cynbit-smart-project-hub.onrender.com](https://cynbit-smart-project-hub.onrender.com)  
+**Live Health Diagnostic:** [https://cynbit-smart-project-hub.onrender.com/api/health](https://cynbit-smart-project-hub.onrender.com/api/health)  
+**GitHub Repository:** [https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub](https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub)
 
 ---
 
