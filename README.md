@@ -1,362 +1,555 @@
-# Cynbit Technologies — High-Fidelity Website Recreation + Smart Project Hub
+# Cynbit AI Solution Studio
 
-> **Technical Assessment for Full Stack Developer Intern**  
-> An autonomous, high-fidelity recreation of the official [Cynbit Technologies](https://www.cynbit.in/) web platform, integrated with an innovative enterprise feature: **Cynbit Smart Project Hub (Discovery & AI Blueprint Engine)** and a protected **Admin Inquiry Command Center**.
+**An intelligent platform for business requirement discovery, solution planning, and interactive software visualization.**
 
-> 🌐 **Live Web Application (Vercel)**: [https://cynbit-smart-project-hub.vercel.app](https://cynbit-smart-project-hub.vercel.app)  
-> ⚡ **Live Backend API (Render)**: [https://cynbit-smart-project-hub.onrender.com](https://cynbit-smart-project-hub.onrender.com)  
-> 🩺 **Live Health Diagnostics**: [https://cynbit-smart-project-hub.onrender.com/api/health](https://cynbit-smart-project-hub.onrender.com/api/health)  
-> 📦 **GitHub Repository**: [https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub](https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub)
+Cynbit AI Solution Studio helps businesses translate operational challenges into structured software requirements and explore potential digital solutions through an interactive discovery experience.
 
----
+It brings business requirement collection, solution blueprint generation, visual concept exploration, customization, consultation requests, and project inquiry management together in one platform.
 
-## 📌 Executive Summary
+## Project Links
 
-This project delivers a complete, production-grade full-stack web application built inside this repository. It recreates the public-facing brand identity, visual architecture, and information hierarchy of **Cynbit Technologies** ([https://www.cynbit.in/](https://www.cynbit.in/)) while solving a critical user experience gap: **transforming ambiguous client project inquiries into structured, production-ready architectural blueprints using adaptive discovery and AI.**
-
-### Disclaimer
-> **Notice:** This project is an independent technical assessment prototype developed for recruitment evaluation. It is not affiliated with, operated by, or deployed to the production infrastructure of Cynbit Technologies.
-
----
-
-## 🌟 Key Features
-
-### 1. High-Fidelity Brand Recreation
-- **Official Brand Design System**: Tailored colors reflecting Cynbit's palette:
-  - Primary Deep Teal (`#006067`)
-  - Accent Sky Blue (`#0284c7`)
-  - Cyan Highlights (`#0d9488`)
-  - Deep Onyx Dark Theme (`#0a0f14` & `#101820`)
-- **Typography**: Google Fonts typography hierarchy using **Outfit** (headings) and **Inter** (technical body/UI).
-- **Core Public Pages**:
-  - ` / ` — **Homepage**: Cinematic hero with interactive architectural hub graphic, 6-stage delivery lifecycle, partner marquee, core product suites, testimonials, and FAQ.
-  - `/services` — **Services Hub**: Enterprise suites (AI Automation, Full Stack Development, Cloud & DevOps) with interactive tech stack matrix.
-  - `/story` — **Our Story**: Verified company timeline (2021: Preparatory Rigor → 2022: Validation → 2023: Roadmap → 2024: Official Launch) and architectural philosophy.
-  - `/team` — **Leadership**: Profiles for founders **Mohak Saini** (Founder & CEO), **Ashutosh Upadhyay** (Co-Founder), and **Dhawan Nama** (Co-Founder & CTO).
-  - `/products` — **Product Ecosystem**: Deep dives into **Cynbit Studio**, **TenantEase**, and **Revio** with interactive architecture modal.
-  - `/bitelevate` — **Technical Learning**: Specialized cohort tracks for students, explicitly kept distinct from business client inquiry workflows.
-  - `/careers` — **Careers & Internships**: Verified internship and full-time listings with dedicated application flow.
-  - `/contact` — **Contact & Dispatch**: Jaipur HQ address (`32/115 Pratap Nagar, Jaipur, RJ 302033`), direct phone lines, email forms, and FAQ accordion.
-- **Theme Switcher**: Working Dark / Light mode toggle with persistent state in `localStorage`.
+| Resource | Link |
+|---|---|
+| **GitHub Repository** | [View Source Code](https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub) |
+| **Working Prototype** | [Explore Application](https://cynbit-smart-project-hub.vercel.app) |
+| **Backend API** | [Backend Service](https://cynbit-smart-project-hub.onrender.com) |
+| **Backend Health Check** | [API Diagnostics](https://cynbit-smart-project-hub.onrender.com/api/health) |
+| **Company Website** | [Cynbit Technologies](https://www.cynbit.in/) |
 
 ---
 
-### 2. Central Innovation: Cynbit AI Solution Studio (`/discovery`)
-Transforms the traditional inquiry friction into a guided, 7-stage consulting and visualization experience:
-**Understand Business → Generate Solution Blueprint → Visualize Solution → Customize Solution → Connect with an Engineer → Commercial Preferences → Confirmation**
+## 1. Overview
 
-- **Stage 1 — Business Discovery (Smart Solution Finder & Adaptive Profiler)**:
-  - Captures real business context: company identity, target audience, business stage, operational friction, current bottlenecks, tools in use, and desired outcomes.
-  - Interactive selection across 9 strategic project categories with immediate architectural alignment suggestions.
-- **Stage 2 — AI Solution Blueprint Generation (Google Gemini 3.5 Flash Lite)**:
-  - Generates a production-grade 10-point technical architectural blueprint powered by **Google Gemini 3.5 Flash Lite** (with `gemini-3.1-flash-lite` and deterministic zero-failure fallbacks).
-  - Includes: Executive Solution Overview, Core Problem Framing, Target Personas, Functional Modules, Primary User Workflows, Tech Stack (Frontend, Backend, DB, Cloud, AI), 3rd-Party Integrations, Security & Auth, Scalability, Missing Information, and 4-Phase Delivery Milestones.
-  - **Conversational Blueprint Refinement**: Allows clients to submit natural-language adjustment requests that immediately regenerate the blueprint while preserving confirmed context.
-- **Stage 3 — Category-Tailored Solution Visualizer (Interactive UX Prototype)**:
-  - Context-aware prototype engine detecting domain archetypes:
-    - *Pet Care & Veterinary Platform* (Pet parent dashboard, electronic pet health record EHR, appointment scheduler with 15-minute intervals, services directory).
-    - *E-Commerce & Storefront* (Curated catalog, faceted filter browse, PDP, customer order hub).
-    - *AI Agent Automation Console* (Execution telemetry, visual node workflow graph, semantic vector RAG hub, audit trail).
-    - *Healthcare & Clinical Desk* (Operations desk, patient EHR, doctor scheduler, telehealth triage).
-    - *PropTech & Tenant Ecosystem* (Property hub, floorplans, digital rent ledger, maintenance tickets).
-    - *SaaS Executive Dashboard* (KPI widgets, operations matrix, customer records, analytics).
-    - *Native Mobile Application* (Touch feed, quick booking, biometric concept).
-  - Desktop / Mobile responsive viewport toggle.
-  - Transparently marked as an **AI-Assisted React-Rendered Concept Prototype** for assessment review.
-- **Stage 4 — Live Solution Customization & Feedback**:
-  - Live design palette switching (*Cynbit Teal, Midnight Onyx, Electric Indigo, Clean Minimal, Emerald Mint*).
-  - One-click feature modifications (e.g. 15-minute appointment slots, emergency telehealth hotline, clinical store) that instantly re-render inside the visualizer.
-  - Concept approval marking and client design feedback capture.
-- **Stage 5 — Engineer Consultation Booking**:
-  - Option A: Schedule a 1-on-1 technical discovery session with Cynbit engineering (Channel: Google Meet, Phone, In-person; preferred date, time slot, and discussion topics).
-  - Option B: Fast-track submission directly to the commercial scope stage.
-- **Stage 6 — Commercial Preferences (Budget & Timeline)**:
-  - Captures realistic budget tiers (₹3L–₹5L, ₹5L–₹10L, ₹10L–₹25L, ₹25L+) and timeline horizons (Under 1 month, 1–3 months, 3–6 months, 6+ months).
-  - Captures complete stakeholder contact details and explicit consent timestamp.
-- **Stage 7 — Confirmation & Reference Tracking**:
-  - Issues a verifiable reference ID (e.g., `CYN-2026-XXXXXX`) and persists the entire journey to MongoDB Atlas.
+Businesses often know what they want to improve but may not know how to translate those needs into clear software requirements.
+
+For example, a healthcare organization might be struggling with patient queues, appointment coordination, and disconnected records. It may recognize these operational problems without knowing which software modules, workflows, or integrations would address them.
+
+This creates a gap between identifying a business problem and defining a practical software solution.
+
+**Cynbit AI Solution Studio addresses this gap through a guided digital discovery process.**
+
+Customers can describe their business, identify challenges, explore a proposed solution blueprint, interact with a visual concept, customize requirements, and submit a structured project inquiry.
+
+The platform also provides an administrative dashboard for reviewing and managing submitted inquiries.
+
+## 2. Key Features
+
+### Business Requirement Discovery
+
+- Collects company and business information.
+- Captures industry, target audience, business stage, and operational challenges.
+- Identifies existing tools, systems, and workflow limitations.
+- Records business goals and desired outcomes.
+- Uses guided questions to organize project requirements.
+
+### AI-Assisted Solution Blueprint
+
+- Analyzes the submitted business context.
+- Generates structured solution recommendations using Google Gemini.
+- Identifies business problems and target user groups.
+- Suggests functional modules and primary workflows.
+- Provides technical architecture and technology recommendations.
+- Identifies potential integrations and security considerations.
+- Outlines implementation phases, assumptions, and clarification requirements.
+- Supports conversational refinement of the proposed blueprint.
+
+### Interactive Solution Visualizer
+
+Transforms a proposed solution into an interactive, React-rendered concept.
+
+Supported solution categories include:
+
+- Healthcare and clinical platforms.
+- Pet care and veterinary platforms.
+- E-commerce applications.
+- SaaS dashboards.
+- AI agent automation interfaces.
+- Property and tenant management platforms.
+- Mobile application concepts.
+
+Users can explore relevant interface elements, switch between desktop and mobile previews, and examine how proposed features could fit into a software product.
+
+The visualizer represents an interactive concept prototype, not a complete production application for each industry.
+
+### Solution Customization and Feedback
+
+- Explore different visual presentation options.
+- Modify supported features through interactive controls.
+- View changes in the concept preview.
+- Record customization preferences.
+- Provide feedback and indicate concept approval.
+
+### Engineering Consultation
+
+- Request an engineering discussion.
+- Select a preferred communication channel.
+- Provide preferred date and time information.
+- Record discussion topics.
+- Track consultation request status.
+
+Consultation requests remain subject to confirmation; submitting a request does not automatically confirm an appointment.
+
+### Project Inquiry and Submission
+
+- Capture project scope and requirements.
+- Record budget preferences.
+- Capture expected implementation timelines.
+- Collect stakeholder contact information.
+- Record consent.
+- Generate a unique inquiry reference ID.
+- Persist submitted project information in MongoDB Atlas.
+
+### Administrative Inquiry Dashboard
+
+A protected administrative interface provides:
+
+- Administrator authentication.
+- Inquiry listing and search.
+- Lookup using inquiry reference IDs.
+- Inquiry status filtering and management.
+- Detailed business requirement inspection.
+- Access to generated solution blueprints.
+- Review of visual preferences and requested modifications.
+- Consultation request tracking.
+- Internal notes and inquiry management.
 
 ---
 
-### 3. Supporting Feature: Protected Admin Inquiry Dashboard (`/admin/dashboard`)
-- **JWT & Bcrypt Security**: Strict route protection via Authorization Bearer header.
-- **Dedicated Admin Login (`/admin/login`)**: Secure credential verification with JWT token issuance, protected against brute-force and credential exposure.
-- **Dual Lookup Engine**: Deep search and status inspection supported by both internal MongoDB `_id` and formatted reference ID (`CYN-2026-XXXXXX`).
-- **Operational Metrics**:
-  - Total Inquiries & Active Pipeline counts (New, Reviewing, Clarification Required, Qualified, Closed).
-  - Engineering Consultation metrics (Total Requested, Pending, Confirmed).
-- **Interactive Inquiries Table**:
-  - Live search across Client Name, Work Email, Company, Reference ID, and Consultation status.
-  - Multi-status and category dropdown filters.
-- **Slide-Over Blueprint & Customer Journey Inspector**:
-  - Displays original adaptive discovery answers, business context, and contact details.
-  - Complete AI Blueprint with modules, tech architecture, and roadmap.
-  - Visual concept configuration, theme choice, and requested feature customizations.
-  - Consultation status manager (Pending → Confirmed → Completed) and internal staff notes logger.
+## 3. End-to-End Workflow
 
----
-
-## 🏗️ Architecture & Technology Stack
+The platform connects the customer's initial business requirements to a structured project inquiry.
 
 ```mermaid
-graph TD
-  User((Client Visitor)) -->|Interacts| Client[React 18 + Vite + Tailwind CSS]
-  Admin((Engineering Lead)) -->|Reviews| AdminUI[Admin Dashboard /admin/dashboard]
-
-  subgraph Frontend [Client Layer - Port 5173]
-    Client -->|Route /discovery| DiscoveryStudio[Cynbit AI Solution Studio]
-    DiscoveryStudio -->|Stage 3 & 4| Visualizer[Interactive Solution Visualizer]
-    Client -->|Public Pages| BrandPages[Home, Services, Story, Team, etc.]
-    AdminUI -->|JWT Auth| AuthCtx[AuthContext]
-  end
-
-  subgraph Backend [Server Layer - Port 5000]
-    API[Express.js REST API]
-    AuthMdw[JWT + Role Middleware]
-    RateLimit[Express Rate Limiter]
-    ZodVal[Zod Validation Schemas]
-    AISvc[aiBlueprintService]
-    
-    API --> RateLimit --> ZodVal
-    AuthMdw --> AdminController[Admin Controller (Dual-Lookup)]
-  end
-
-  subgraph External & Database
-    AISvc -->|Primary| GeminiAPI[Google Gemini 3.5 Flash Lite API]
-    AISvc -->|Candidate Fallback| Gemini31[Google Gemini 3.1 Flash Lite API]
-    AISvc -->|Offline Fallback| LocalRules[Deterministic Engine]
-    API -->|Mongoose ODM| DB[(MongoDB Atlas / MongoMemoryServer)]
-  end
-
-  Client -->|REST API| API
-  AdminUI -->|Bearer Token| API
+flowchart TD
+    A["Customer visits the platform"] --> B["Business requirement discovery"]
+    B --> C["Business challenges and goals"]
+    C --> D["Solution blueprint generation"]
+    D --> E["Interactive solution visualization"]
+    E --> F["Customization and feedback"]
+    F --> G["Engineering consultation request"]
+    G --> H["Budget, timeline and contact details"]
+    H --> I["Review and submit inquiry"]
+    I --> J["Backend validation and processing"]
+    J --> K["MongoDB Atlas persistence"]
+    K --> L["Unique inquiry reference ID"]
+    L --> M["Administrative review"]
 ```
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | React 18, Vite 6, Tailwind CSS, React Router v6, Lucide React Icons |
-| **Backend** | Node.js, Express.js (ES Modules), CORS, Helmet, Rate Limiter |
-| **Database** | MongoDB Atlas with Mongoose ODM (Auto-fallback to `mongodb-memory-server` for zero-setup local runs) |
-| **Security** | JWT (jsonwebtoken), Bcrypt.js password hashing, Zod request schema validation, Rate Limiting |
-| **AI Integration** | Google Gemini 3.5 Flash Lite API with Gemini 3.1 Flash Lite and domain-tailored deterministic fallbacks |
-| **DevOps** | Vercel (Client deployment ready), Render (Server deployment ready) |
+### Example: Healthcare Solution Discovery
+
+Consider a healthcare organization that wants to improve its patient management process.
+
+1. The organization describes its appointment and patient queue challenges.
+2. The platform collects its business requirements and operational context.
+3. A structured solution blueprint proposes relevant modules, such as appointment scheduling, patient records, and queue management.
+4. The visualizer presents an interactive concept of the proposed platform.
+5. The organization explores the concept and requests changes.
+6. It submits its project preferences and consultation request.
+7. The inquiry is stored and made available for administrative review.
+
+This provides a more structured starting point for subsequent discussions between the customer and engineering team.
 
 ---
 
-## 🚀 Quick Start Guide (Local Setup)
+## 4. Technology Stack
 
-The application has been engineered to run out of the box with zero external setup required. If MongoDB is not installed locally or no Atlas URI is provided, the backend automatically boots an in-memory MongoDB server and seeds initial demo inquiries and the admin user!
+The application uses a full-stack JavaScript architecture, with a separate frontend, backend API, database, and AI integration.
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| Frontend | React 18 | Component-based user interface |
+| Build Tool | Vite | Frontend development and production builds |
+| Styling | Tailwind CSS | Responsive interface styling |
+| Backend | Node.js | Server-side JavaScript runtime |
+| API Framework | Express.js | REST API and application routing |
+| Database | MongoDB Atlas | Persistent application data storage |
+| ODM | Mongoose | Database schemas and data operations |
+| AI Integration | Google Gemini API | Business-context analysis and blueprint generation |
+| Authentication | JSON Web Tokens | Administrator session authentication |
+| Password Security | bcryptjs | Password hashing |
+| Validation | Zod | Request data validation |
+| Hosting | Vercel | Frontend deployment |
+| Backend Hosting | Render | Backend API deployment |
+
+### Why This Architecture?
+
+The frontend and backend are separated to keep user interface responsibilities independent from business logic and data processing.
+
+React provides reusable interface components, while Express handles API requests, validation, authentication, and communication with external services.
+
+MongoDB Atlas stores submitted inquiry information, and the Gemini integration supports structured solution blueprint generation.
+
+This architecture makes the application easier to maintain and extend as additional requirements are introduced.
+
+---
+
+## 5. System Architecture
+
+The application follows a client-server architecture.
+
+```mermaid
+flowchart TD
+    U["Customer / Administrator"] --> FE["React Frontend"]
+    FE --> API["Express REST API"]
+
+    API --> VAL["Validation and Middleware"]
+    VAL --> CTRL["Application Controllers"]
+
+    CTRL --> AI["AI Blueprint Service"]
+    AI --> GEM["Google Gemini API"]
+
+    CTRL --> DB["Mongoose ODM"]
+    DB --> MDB[("MongoDB Atlas")]
+
+    CTRL --> AUTH["Administrator Authentication"]
+    AUTH --> FE
+
+    GEM --> CTRL
+    MDB --> CTRL
+    CTRL --> API
+    API --> FE
+```
+
+### Frontend Layer
+
+The frontend provides the public-facing company website, guided discovery experience, solution visualizer, and administrative interface.
+
+It communicates with the backend through API requests.
+
+### Backend Layer
+
+The Express backend handles:
+
+- Discovery and blueprint generation requests.
+- Inquiry validation and submission.
+- Database operations.
+- Administrator authentication.
+- Inquiry retrieval and status management.
+
+### AI Integration Layer
+
+The AI service processes business context and generates structured solution recommendations.
+
+A fallback mechanism is also included to handle situations where the primary AI service cannot provide a response, subject to the configured service behavior.
+
+### Database Layer
+
+MongoDB Atlas stores inquiry records and their associated project information.
+
+Mongoose provides structured models and database interaction.
+
+### Administrative Layer
+
+Protected API routes allow authenticated administrators to inspect inquiries and manage their status.
+
+---
+
+## 6. Database and Data Management
+
+The application uses MongoDB Atlas with Mongoose for persistent data storage.
+
+The inquiry data structure supports information collected throughout the customer journey, including:
+
+- Customer and company details.
+- Business discovery responses.
+- Project category and requirements.
+- Generated solution blueprint.
+- Visualizer configuration and customization preferences.
+- Customer feedback.
+- Consultation preferences and status.
+- Budget and timeline information.
+- Inquiry reference ID.
+- Administrative status and internal notes.
+
+This allows the administrative dashboard to present the complete context of a submitted project inquiry rather than only basic contact information.
+
+### Database Environments
+
+**Development:** The application can use MongoDB Memory Server for local development when a persistent database connection is not configured and the implementation permits it. Data in this mode is temporary.
+
+**Production:** The deployed backend uses MongoDB Atlas for persistent storage. Production database configuration is supplied through environment variables.
+
+---
+
+## 7. Security and Reliability
+
+The application incorporates several security and validation mechanisms:
+
+- JWT-based administrator authentication.
+- bcryptjs password hashing.
+- Protected administrative API routes.
+- Request validation using Zod.
+- Rate limiting for applicable API endpoints.
+- CORS configuration for frontend-backend communication.
+- Environment-based management of sensitive configuration.
+- Server-side handling of the Gemini API key.
+- Database connection checks and health diagnostics.
+
+Sensitive credentials and API keys should be maintained in deployment environment variables and must not be committed to the repository.
+
+---
+
+## 8. Administrative Workflow
+
+The administrative dashboard provides a centralized view of incoming project inquiries.
+
+An authenticated administrator can:
+
+1. View submitted inquiries.
+2. Search by customer information or reference ID.
+3. Inspect the original business requirements.
+4. Review the generated solution blueprint.
+5. Examine visual customization preferences.
+6. Review consultation requests.
+7. Update inquiry statuses.
+8. Add internal notes.
+
+This gives the engineering team a more organized way to review incoming requirements and prepare for subsequent customer discussions.
+
+---
+
+## 9. Deployment Architecture
+
+The application is deployed using separate frontend and backend hosting services.
+
+| Component | Platform | Deployment |
+|---|---|---|
+| Frontend | Vercel | `client/` |
+| Backend | Render | `server/` |
+| Database | MongoDB Atlas | Managed cloud database |
+| AI Service | Google Gemini | Server-side API integration |
+
+### Application Communication
+
+1. A user opens the frontend hosted on Vercel.
+2. The frontend sends API requests to the backend hosted on Render.
+3. The backend processes requests and communicates with Gemini or MongoDB Atlas as required.
+4. The backend returns the result to the frontend.
+5. The frontend updates the user interface.
+
+Production configuration is maintained through the respective hosting provider's environment variables.
+
+---
+
+## 10. Local Development Setup
 
 ### Prerequisites
-- **Node.js**: v18.0.0 or higher
-- **npm**: v9.0.0 or higher
-- **Git**
 
----
+- Node.js 18 or later.
+- npm.
+- Git.
 
-### Step 1: Clone & Inspect Repository
+### Step 1: Clone the Repository
+
 ```bash
-git clone <repository-url>
-cd Cynbit
+git clone https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub.git
+cd cynbit-smart-project-hub
 ```
 
----
+### Step 2: Configure the Backend
 
-### Step 2: Backend Setup
-Open a terminal in the `server` directory:
 ```bash
 cd server
 npm install
 ```
 
-Create a `.env` file from the provided example:
+Create a `.env` file using the provided template:
+
 ```bash
 cp .env.example .env
 ```
-*(The default `.env` will use the in-memory database and deterministic fallback if no external keys are added).*
 
-Start the backend server:
+Configure the required environment variables according to the development setup.
+
+Typical configuration includes:
+
+```env
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_local_jwt_secret
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-3.5-flash-lite
+```
+
+Use your own local credentials. Never commit the `.env` file.
+
+Start the backend using the available development script:
+
 ```bash
 npm run dev
-# Or for standard execution:
-node server.js
-```
-The server will start on **`http://localhost:5000`** and log:
-```
-ℹ️ Notice: No MONGODB_URI provided. Starting MongoMemoryServer for development...
-✅ Connected to MongoMemoryServer successfully (in-memory mode for development).
-ℹ️ Database Mode: In-Memory (MongoMemoryServer). Data resets on process termination.
-ℹ️ Admin user seeded: admin@cynbit.in
-ℹ️ Seeded 3 initial synthetic demo inquiries for testing.
-🚀 Cynbit Server running on port 5000
 ```
 
----
+If the project does not provide a development script, use its configured server start command.
 
-### Step 3: Frontend Setup
-In a new terminal window, navigate to the `client` directory:
+### Step 3: Configure the Frontend
+
+Open another terminal:
+
 ```bash
 cd client
 npm install
+```
+
+Create the local environment file using the example:
+
+```bash
+cp .env.example .env
+```
+
+Configure:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
-Open **`http://localhost:3000`** in your browser.
+
+Open the local address printed by Vite in the terminal, typically:
+
+```text
+http://localhost:5173
+```
+
+### Step 4: Explore the Application
+
+The main application routes include:
+
+| Route | Purpose |
+|---|---|
+| `/` | Homepage |
+| `/services` | Services |
+| `/story` | Company story |
+| `/team` | Team |
+| `/products` | Products |
+| `/bitelevate` | Learning platform |
+| `/careers` | Careers |
+| `/contact` | Contact |
+| `/discovery` | AI Solution Studio |
+| `/admin/login` | Administrator login |
+| `/admin/dashboard` | Protected inquiry dashboard |
+
+Use the actual configured administrator credentials for your local environment. Do not publish passwords in this documentation.
 
 ---
 
-## 🔐 Admin & Evaluator Authentication Setup
+## 11. API Overview
 
-The **Admin Inquiry Dashboard** (`/admin/dashboard`) is strictly protected and requires a valid JWT Bearer token obtained via `/api/admin/login`.
-
-To provision credentials safely without exposing passwords:
-
-1. **Option A: Automatic One-Time Session Password (Zero-Config Development)**  
-   When the server boots in development mode without an `ADMIN_PASSWORD` defined, it automatically generates a cryptographically secure random one-time session password and logs it directly to your terminal.
-
-2. **Option B: Evaluator Demo Provisioning Script**  
-   From the `server` directory, run:
-   ```bash
-   node scripts/createEvaluator.js
-   ```
-   This generates an on-demand reviewer account (`evaluator@cynbit.test`) with a random password printed strictly to stdout.
-
-3. **Option C: Environment Variables (Recommended for local dev & production)**  
-   Specify credentials in `server/.env`:
-   ```bash
-   ADMIN_EMAIL=your-admin@cynbit.in
-   ADMIN_PASSWORD=YourStrongPasswordHere
-   ```
-   When the server boots, it provisions/updates the administrator account with `bcrypt` (10 rounds).
-
-*Security Notice: Passwords are encrypted with bcrypt, never committed to git, excluded from JSON serialization via Mongoose `toJSON` transforms, and never returned in API payloads.*
-
----
-
-## 🗄️ Database Architecture & Persistence Transparency
-
-- **Development In-Memory Mode (`mongodb-memory-server`)**: If no `MONGODB_URI` is provided, the server initializes an embedded in-memory MongoDB instance so reviewers can test the application immediately with zero setup. **Note that in-memory storage resets when the server process stops.** In-memory mode is never represented as production persistence.
-- **Production Persistence Mode (MongoDB Atlas / External MongoDB)**: Set `MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/cynbit` in `server/.env`. In production (`NODE_ENV=production`), the server enforces a real database connection and rejects startup if `MONGODB_URI` is missing.
-- **Health Diagnostics (`GET /api/health`)**: Transparently reports whether the active database is an in-memory session or a production-persistent cluster.
-
----
-
-## 📡 API Reference Documentation
+The backend exposes REST endpoints for application functionality.
 
 ### Public Endpoints
 
-#### `GET /api/health`
-Health check verifying server status, environment, and detailed database connectivity.
-- **Response 200**:
-  ```json
-  {
-    "success": true,
-    "status": "healthy",
-    "timestamp": "2026-10-31T05:55:00.000Z",
-    "database": {
-      "status": "Connected",
-      "type": "MongoMemoryServer (In-Memory Development)",
-      "isProductionPersistent": false,
-      "isFallbackMode": true,
-      "notice": "In-memory database is active for zero-config local evaluation. Data will reset on server restart. For persistent production storage, set MONGODB_URI in server/.env."
-    },
-    "environment": "development"
-  }
-  ```
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/api/health` | Backend and database health diagnostics |
+| `POST` | `/api/discovery/blueprint` | Generate a solution blueprint |
+| `POST` | `/api/inquiries` | Validate and submit a project inquiry |
 
-#### `POST /api/discovery/blueprint`
-Analyzes discovery answers and generates an architectural project blueprint.
-- **Body**:
-  ```json
-  {
-    "category": "ai-automation",
-    "answers": {
-      "businessProcess": "Invoice verification and matching",
-      "currentSystem": "Manual entry in Excel",
-      "toolsInUse": "Gmail, SAP, Google Drive",
-      "goals": "Reduce turnaround time to 10 minutes"
-    }
-  }
-  ```
-- **Response 200**: Returns structured blueprint with overview, problem, solution, functional requirements, technical considerations, clarification questions, and next steps.
+### Protected Administrative Endpoints
 
-#### `POST /api/inquiries`
-Validates and persists a client project inquiry and blueprint.
-- **Body**:
-  ```json
-  {
-    "clientName": "Dr. Siddharth Sen",
-    "email": "siddharth@medixcare.com",
-    "company": "MedixCare Health",
-    "phone": "+91 99887 76655",
-    "projectCategory": "Build a new website or web application",
-    "discoveryAnswers": { ... },
-    "generatedBlueprint": { ... },
-    "consentGiven": true
-  }
-  ```
-- **Response 201**: Returns unique reference ID (`CYN-2026-XXXXXX`) and inquiry record.
+These routes require valid administrator authentication.
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/admin/login` | Administrator login |
+| `GET` | `/api/admin/me` | Retrieve authenticated administrator details |
+| `GET` | `/api/admin/stats` | Retrieve inquiry statistics |
+| `GET` | `/api/admin/inquiries` | Retrieve and filter inquiries |
+| `GET` | `/api/admin/inquiries/:id` | Retrieve inquiry details |
+| `PATCH` | `/api/admin/inquiries/:id/status` | Update inquiry status |
+| `PATCH` | `/api/admin/inquiries/:id/notes` | Add internal inquiry notes |
+
+Refer to the backend source code for the exact request and response schemas.
 
 ---
 
-### Protected Admin Endpoints *(Requires `Authorization: Bearer <token>`)*
+## 12. Testing and Verification
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/admin/login` | Authenticates admin credentials, returns JWT. |
-| `GET` | `/api/admin/me` | Returns current admin profile. |
-| `GET` | `/api/admin/stats` | Returns aggregate counts by status (New, Reviewing, etc.). |
-| `GET` | `/api/admin/inquiries` | Returns paginated inquiries list with search and filter support. |
-| `GET` | `/api/admin/inquiries/:id` | Returns full inquiry with adaptive answers and AI blueprint. |
-| `PATCH` | `/api/admin/inquiries/:id/status` | Updates inquiry status (`New`, `Reviewing`, `Clarification Required`, `Qualified`, `Closed`). |
-| `PATCH` | `/api/admin/inquiries/:id/notes` | Appends an internal timestamped note with author attribution. |
+The project includes a production frontend build process and a backend health endpoint.
 
----
+The application workflow can be evaluated through the following checks:
 
-## ☁️ Deployment Guide
+| Area | Verification |
+|---|---|
+| Frontend | Production build |
+| Navigation | Public and application routes |
+| Discovery | Business requirement collection |
+| AI Integration | Blueprint generation |
+| Visualizer | Concept rendering and customization |
+| Inquiry | Submission and reference generation |
+| Database | Inquiry persistence |
+| Authentication | Protected administrator access |
+| Dashboard | Inquiry retrieval and status management |
+| Deployment | Frontend and backend availability |
 
-### Frontend Deployment (Vercel)
-1. Push the latest code to your GitHub repository.
-2. In [Vercel](https://vercel.com), click **Add New Project** and select your repository: `cynbit-smart-project-hub`.
-3. Set **Root Directory** to `client` (Click *Edit* next to Root Directory and choose `client`).
-4. Framework Preset: **Vite**.
-5. Build Command: `npm run build` (Output Directory: `dist`).
-6. A configured [client/vercel.json](file:///client/vercel.json) is included with SPA rewrites (`"source": "/(.*)", "destination": "/index.html"`) ensuring internal routes load cleanly on direct page refresh.
-7. Configure Environment Variable in Vercel:
-   - **Key**: `VITE_API_URL`
-   - **Value**: `https://cynbit-smart-project-hub.onrender.com`
-   *(Note: The client application automatically appends the `/api` path and prevents duplicate `/api/api` paths, so entering either the base domain or the `/api` endpoint works seamlessly).*
-   - **Security Notice**: Do **NOT** add any backend secrets (`MONGODB_URI`, `GEMINI_API_KEY`, `JWT_SECRET`, or passwords) to Vercel. Vite bundles client variables into public JavaScript assets.
-8. Click **Deploy**!
+Testing claims should be based on executed test results and actual deployment observations.
 
-### Backend Deployment (Render / Railway)
-1. A ready-to-use Render Blueprint is provided in `server/render.yaml`.
-2. Alternatively, in Render, create a new **Web Service** pointing to the repository.
-3. Set **Root Directory** to `server`.
-4. Build Command: `npm install`
-5. Start Command: `node server.js`
-6. Configure Environment Variables in Render:
-   - `PORT`: `5000`
-   - `NODE_ENV`: `production`
-   - `MONGODB_URI`: Your MongoDB Atlas connection string (`mongodb+srv://...`)
-   - `JWT_SECRET`: A strong random 32+ character string
-   - `GEMINI_API_KEY`: *(Optional)* Your Google Gemini API key
-   - `CORS_ORIGIN`: Your Vercel frontend URL
-7. Deploy!
+The live application and backend health endpoint are provided above for independent verification.
 
 ---
 
-## 🛡️ Security & Privacy Practices
+## 13. Practical Applications
 
-- **Zero Hardcoded Secrets**: All API keys, database URIs, and JWT secrets are managed strictly through environment variables.
-- **Git Hygiene**: Strict `.gitignore` prevents `node_modules`, `.env`, and build artifacts from ever being committed.
-- **Input Sanitization & Validation**: Robust Zod schemas validate both incoming discovery data and inquiry contact submissions.
-- **Password Hashing**: Admin credentials stored in database are hashed with `bcryptjs` using a salt work factor of 10.
-- **Prototype Transparency**: Clear disclaimers on every page ensure visitors and stakeholders recognize this application as an independent assessment prototype.
+Cynbit AI Solution Studio can support several stages of a software services engagement.
+
+**Early-stage requirement gathering:** Helps organize customer requirements before detailed technical discussions.
+
+**Solution exploration:** Allows customers to examine a proposed software concept instead of relying entirely on written descriptions.
+
+**Project scoping:** Collects business goals, budget preferences, timelines, and contact information in a structured format.
+
+**Engineering preparation:** Gives the engineering team a consolidated view of the customer's needs before further consultation.
+
+**Inquiry management:** Helps administrators review and track incoming project opportunities.
 
 ---
 
-## 📄 License & Attribution
+## 14. Limitations and Future Scope
 
-- Built as an independent Full Stack Developer Intern technical assessment.
-- Original brand identity, company history, and service names belong to **Cynbit Technologies** ([https://www.cynbit.in/](https://www.cynbit.in/)).
-- Developed with architectural rigor and care.
+The current application focuses on business discovery, solution blueprinting, interactive concept visualization, and inquiry management.
+
+Potential future improvements include:
+
+- Additional industry-specific visual templates.
+- More advanced feature customization.
+- Expanded third-party service integrations.
+- Real-time consultation scheduling.
+- Detailed project estimation and planning.
+- Advanced administrative analytics.
+- Enhanced customer collaboration and revision workflows.
+- Expanded automated testing and accessibility coverage.
+
+These are potential extensions and should not be interpreted as currently implemented features unless verified in the application.
+
+---
+
+## 15. Conclusion
+
+Cynbit AI Solution Studio brings together business requirement discovery, structured solution planning, interactive visualization, and project inquiry management.
+
+Instead of beginning with an unstructured project request, customers can communicate their business challenges, explore a proposed digital solution, customize their expectations, and submit a more organized inquiry.
+
+The platform demonstrates how a connected full-stack application can support the early stages of a software development engagement while giving customers and engineering teams a clearer starting point for collaboration.
+
+---
+
+## 16. License and Attribution
+
+Cynbit AI Solution Studio is an independently developed software project.
+
+The Cynbit name, company identity, logos, and other original company materials belong to their respective owners. Their appearance in this project does not imply official ownership, endorsement, or operation by Cynbit Technologies.
+
+The repository's applicable license, if present, governs permissions relating to source code reuse and distribution. Where no license has been granted, no additional open-source reuse permissions should be assumed.
+
+For company information, visit [Cynbit Technologies](https://www.cynbit.in/).
+
+---
+
+**Project:** Cynbit AI Solution Studio  
+**Repository:** [Ayushi-Choudhary22/cynbit-smart-project-hub](https://github.com/Ayushi-Choudhary22/cynbit-smart-project-hub)  
+**Live Application:** [cynbit-smart-project-hub.vercel.app](https://cynbit-smart-project-hub.vercel.app)
