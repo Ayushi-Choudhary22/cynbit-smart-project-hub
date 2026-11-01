@@ -231,19 +231,19 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Smart Discovery Hub Link */}
+            {/* AI Solution Studio Link */}
             <Link
               to="/discovery"
               className={`px-3.5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 transition-all ${
-                isActive('/discovery')
+                isActive('/discovery') || isActive('/studio')
                   ? 'bg-primary text-white shadow-md'
                   : 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-dim hover:bg-primary hover:text-white border border-primary/20'
               }`}
             >
               <Compass className="w-3.5 h-3.5 animate-spin-slow" />
-              Smart Discovery
+              AI Solution Studio
               <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-emerald-500 text-white font-extrabold uppercase">
-                AI
+                AI Studio
               </span>
             </Link>
 
@@ -273,12 +273,12 @@ export default function Navbar() {
               <ShieldCheck className={`w-5 h-5 ${isAuthenticated ? 'text-primary dark:text-primary-dim' : ''}`} />
             </Link>
 
-            {/* Start Discovery CTA Button */}
+            {/* AI Solution Studio CTA Button */}
             <Link
               to="/discovery"
               className="hidden md:flex items-center gap-2 bg-primary text-white hover:bg-primary-hover px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
             >
-              Start Discovery
+              AI Solution Studio
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
 
@@ -444,7 +444,7 @@ export default function Navbar() {
         >
           <span className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
             <Sparkles className="w-3 h-3" />
-            Discover
+            AI Studio
           </span>
         </Link>
         <Link

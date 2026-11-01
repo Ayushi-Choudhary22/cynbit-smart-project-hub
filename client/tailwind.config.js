@@ -8,6 +8,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        'cynbit-teal': '#006067',
+        'cynbit-cyan': '#0d9488',
+        'cynbit-sky': '#0284c7',
+        'cynbit-dark': '#070d0f',
+        'cynbit-card': '#121e22',
+        'cynbit-light': '#f8fafc',
+        cynbit: {
+          teal: '#006067',
+          cyan: '#0d9488',
+          sky: '#0284c7',
+          dark: '#070d0f',
+          card: '#121e22',
+          light: '#f8fafc',
+        },
         primary: {
           DEFAULT: '#006067',
           hover: '#004c52',

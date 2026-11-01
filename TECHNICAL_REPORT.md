@@ -65,50 +65,51 @@ In the standard website workflow, such visitors are presented with a simple cont
 
 ---
 
-## 4. Proposed Solution: Cynbit Smart Project Hub
+## 4. Proposed Solution: Cynbit AI Solution Studio
 
-To bridge this gap, we architected **Cynbit Smart Project Hub** (`/discovery`) as a natural extension of Cynbit's 6-Stage Delivery Lifecycle:
+To bridge this gap, we transformed the client-facing experience into the **Cynbit AI Solution Studio** (`/discovery`), architected as an intelligent 7-stage consultative journey:
 
 ### Core Capabilities
-1. **Smart Solution Finder**: Structured routing into 9 core capability paths with rule-based architectural alignment recommendations.
-2. **Adaptive Project Discovery**: Category-tailored questioning that dynamically adapts based on domain complexity, avoiding one-size-fits-all forms.
-3. **AI Project Blueprint Engine**: Generates a 10-point structured architectural blueprint using Google Gemini 1.5 Flash (with a zero-failure deterministic fallback).
-4. **Editable Blueprint Review**: Empowers the client to review, edit, and refine the AI's suggestions before final dispatch.
-5. **Inquiry Tracking & Admin Review**: Persists the structured brief in MongoDB with a unique reference ID (`CYN-2026-XXXXXX`) and provides an authenticated dashboard for engineering leads to inspect and update status.
+1. **Business Discovery (Smart Solution Finder & Adaptive Profiler)**: Structured domain routing into 9 core capability paths with comprehensive discovery capturing company stage, operational bottlenecks, workflows, and goals.
+2. **AI Solution Blueprint Engine (Google Gemini 3.5 Flash Lite)**: Generates a 10-point production-grade architectural blueprint (with candidate fallback to `gemini-3.1-flash-lite` and zero-failure deterministic rules).
+3. **Conversational Blueprint Refinement**: Empowers the client to submit natural-language adjustment requests that immediately regenerate the blueprint while keeping confirmed context.
+4. **Category-Tailored Solution Visualizer**: Interactive React-rendered UI prototypes dynamically selected by domain (Pet Care, E-Commerce, AI Agent Studio, Healthcare, PropTech, SaaS Dashboard, Mobile App).
+5. **Live Customization & Design Feedback**: Real-time theme switching (e.g. Midnight Onyx), one-click feature modifications (15-min slots, emergency hotline, nutrition store), and concept approval.
+6. **Engineer Consultation Booking**: Allows clients to request a 1-on-1 technical discovery meeting with Cynbit senior engineers via Google Meet.
+7. **Commercial Scope & Persistence**: Captures budget tiers, timeline horizons, contact verification, and persists the full journey in MongoDB Atlas with reference format `CYN-2026-XXXXXX`.
 
 ---
 
 ## 5. End-to-End User Journeys
 
-### Client Discovery Journey
+### Client AI Solution Studio Journey
 ```mermaid
 sequenceDiagram
   autonumber
   actor Visitor as Client Visitor
-  participant Client as React Frontend
-  participant Server as Express Backend
-  participant AI as Gemini 1.5 LLM / Engine
+  participant Client as React Frontend (/discovery)
+  participant Server as Express Backend (/api)
+  participant AI as Gemini 3.5 Flash Lite / Engine
   participant DB as MongoDB Atlas
 
-  Visitor->>Client: Clicks "Start Smart Discovery" (/discovery)
-  Client->>Visitor: Displays 9 Solution Finder categories
-  Visitor->>Client: Selects category (e.g. AI Automation)
-  Client->>Visitor: Shows Rule-Based Architectural Alignment card
-  Visitor->>Client: Proceeds to Adaptive Questions
-  Visitor->>Client: Answers dynamic domain questions (Q1..Q5)
+  Visitor->>Client: Stage 1: Completes Business Discovery (Profile, Problem, Solutions)
   Visitor->>Client: Clicks "Generate AI Blueprint"
   Client->>Server: POST /api/discovery/blueprint { category, answers }
-  Server->>AI: Prompts Gemini API (or Deterministic Engine fallback)
-  AI-->>Server: Returns structured 10-point architectural JSON
+  Server->>AI: Prompts Gemini 3.5 Flash Lite (JSON mode)
+  AI-->>Server: Returns 10-point architectural JSON
   Server-->>Client: HTTP 200 { blueprint }
-  Client->>Visitor: Renders Blueprint with Confirmed vs AI vs Missing tags
-  Visitor->>Client: Optionally edits blueprint fields & proceeds
-  Visitor->>Client: Fills contact info, checks consent, clicks "Submit"
-  Client->>Server: POST /api/inquiries { clientName, email, answers, blueprint, consent }
+  Client->>Visitor: Stage 2: Renders Technical Blueprint
+  Visitor->>Client: Stage 3: Opens Solution Visualizer (Category Prototype)
+  Visitor->>Client: Stage 4: Changes theme (Midnight Onyx) & adds feature notes
+  Client->>Visitor: Visualizer re-renders live with modifications
+  Visitor->>Client: Stage 5: Requests Engineer Consultation (Google Meet)
+  Visitor->>Client: Stage 6: Selects Budget, Timeline & enters contact info
+  Visitor->>Client: Clicks "Submit Complete Project Inquiry"
+  Client->>Server: POST /api/inquiries { clientName, email, blueprint, designFeedback, consultation, budget, consent }
   Server->>Server: Generates unique Reference ID (CYN-2026-XXXXXX)
   Server->>DB: Stores inquiry document (status = "New")
   Server-->>Client: HTTP 201 { referenceId, inquiry }
-  Client->>Visitor: Shows Confirmation screen with copyable Ref ID
+  Client->>Visitor: Stage 7: Displays Confirmation with Reference ID & next steps
 ```
 
 ### Admin Governance Journey
@@ -126,16 +127,19 @@ sequenceDiagram
   Server->>DB: Finds user & validates bcrypt hash
   Server-->>Client: Returns JWT access token (valid 24h)
   Client->>Server: GET /api/admin/stats + GET /api/admin/inquiries (Bearer Token)
-  Server->>DB: Aggregates counts and retrieves inquiry list
+  Server->>DB: Aggregates pipeline & consultation metrics
   Server-->>Client: Returns metrics and inquiries
   Client->>Admin: Renders Command Center with search & filters
-  Admin->>Client: Clicks "Inspect Brief" on newly submitted inquiry
-  Client->>Admin: Opens slide-over modal with full answers & AI blueprint
-  Admin->>Client: Selects status "Reviewing" & writes internal note
+  Admin->>Client: Clicks "View Full Blueprint & Journey" on inquiry
+  Client->>Server: GET /api/admin/inquiries/:id (Dual Lookup by ObjectId or Reference ID)
+  Server->>DB: Retrieves complete journey record
+  Server-->>Client: Returns full inquiry details
+  Client->>Admin: Opens inspection modal (Blueprint, Design Feedback, Consultation, Notes)
+  Admin->>Client: Updates status & logs internal staff note
   Client->>Server: PATCH /api/admin/inquiries/:id/status & PATCH .../notes
   Server->>DB: Updates status and appends timestamped note
   Server-->>Client: Confirms update
-  Client->>Admin: Renders updated status and note in timeline
+  Client->>Admin: Renders updated timeline in real time
 ```
 
 ---
@@ -151,9 +155,9 @@ The codebase is organized into two distinct, independently deployable modules:
 - **React 18 + Vite**: Instant hot-module replacement in development, highly optimized Rollup bundles for production, and lightning-fast client-side navigation via React Router v6.
 - **Tailwind CSS**: Full design control over custom HSL and hex tokens (`cynbit-teal`, `cynbit-cyan`, `cynbit-dark`) ensuring exact brand alignment without CSS bloat.
 - **Node.js & Express**: Clean RESTful architecture, robust asynchronous handlers, and lightweight runtime efficiency.
-- **MongoDB Atlas & Mongoose**: Flexible document model naturally suited for nested discovery questionnaire answers and dynamic AI-generated blueprint schemas.
+- **MongoDB Atlas & Mongoose**: Flexible document model naturally suited for nested discovery questionnaire answers, AI-generated blueprints, and visual customization feedback. Dual lookup support for both `_id` and formatted reference IDs.
 - **Hybrid In-Memory Fallback (`mongodb-memory-server`)**: If no `MONGODB_URI` is provided in development, the server seamlessly initializes an in-memory database instance, seeds admin credentials and demo inquiries, ensuring immediate evaluation out-of-the-box.
-- **Google Gemini 1.5 Flash**: Chosen for its fast response latency, generous context window, and native JSON mode schema enforcement.
+- **Google Gemini 3.5 Flash Lite**: Chosen as the primary AI engine for fast response latency, generous context window, and native JSON mode schema enforcement (with candidate fallback to `gemini-3.1-flash-lite`).
 
 ---
 

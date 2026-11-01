@@ -41,59 +41,58 @@ This project delivers a complete, production-grade full-stack web application bu
 
 ---
 
-### 2. Central Innovation: Cynbit Smart Project Hub (`/discovery`)
-Solves the friction where non-technical or early-stage clients visit with vague ideas (e.g., *"I want to automate my business with AI"* or *"I need an app for customers"*):
+### 2. Central Innovation: Cynbit AI Solution Studio (`/discovery`)
+Transforms the traditional inquiry friction into a guided, 7-stage consulting and visualization experience:
+**Understand Business → Generate Solution Blueprint → Visualize Solution → Customize Solution → Connect with an Engineer → Commercial Preferences → Confirmation**
 
-- **Feature A — Smart Solution Finder**:
-  - Interactive selection across 9 strategic project categories (Web Application, Mobile App, AI Process Automation, Autonomous Agents, Legacy Modernization, Cloud Infrastructure, Technical SEO, Cynbit Product Exploration, and General Guidance).
-  - **Rule-Based Recommendation Engine**: Immediately maps the client's choice to Cynbit's primary delivery capability and recommended technology stack (transparently labeled as rule-based, not fake AI).
-- **Feature B — Adaptive Project Discovery**:
-  - Dynamic follow-up questionnaire tailored uniquely to the chosen category.
-  - Step-by-step progress indicator, backward/forward navigation, input validation, and auto-save in `localStorage`.
-  - Accessible "Need engineering guidance / Not sure" shortcuts.
-- **Feature C — AI Project Blueprint**:
-  - Backend integration with **Google Gemini 1.5 Flash API** (with a deterministic zero-failure fallback).
-  - Generates a structured architectural blueprint:
-    - *Project Overview*
-    - *Problem Statement*
-    - *Proposed Architecture Direction*
-    - *Target Audience & Stakeholders*
-    - *Core Functional Modules*
-    - *Technical Stack & Deployment Considerations*
-    - *Potential Integrations*
-    - *Missing Information & Risks*
-    - *Clarification Questions for Discovery Call*
-    - *Suggested Next Steps aligned with Cynbit's 6-Stage Lifecycle*
-  - Clear color-coded badges distinguishing: **Confirmed by Visitor** (Blue), **AI Recommendation** (Emerald), and **Clarification Required** (Amber).
-  - **Inline Blueprint Editing**: Visitors can customize or refine any field before submitting.
-  - Honest disclosure banner indicating whether live Gemini AI or the deterministic engine was used.
-- **Feature D — Inquiry Submission & Reference Tracking**:
-  - Collects client name, work email, company, phone, and explicit prototype submission consent.
-  - Generates a unique tracking reference ID (format: `CYN-2026-XXXXXX`).
-  - Persists inquiry and blueprint to MongoDB with status `"New"`.
-  - Confirmation screen with copy-to-clipboard functionality.
+- **Stage 1 — Business Discovery (Smart Solution Finder & Adaptive Profiler)**:
+  - Captures real business context: company identity, target audience, business stage, operational friction, current bottlenecks, tools in use, and desired outcomes.
+  - Interactive selection across 9 strategic project categories with immediate architectural alignment suggestions.
+- **Stage 2 — AI Solution Blueprint Generation (Google Gemini 3.5 Flash Lite)**:
+  - Generates a production-grade 10-point technical architectural blueprint powered by **Google Gemini 3.5 Flash Lite** (with `gemini-3.1-flash-lite` and deterministic zero-failure fallbacks).
+  - Includes: Executive Solution Overview, Core Problem Framing, Target Personas, Functional Modules, Primary User Workflows, Tech Stack (Frontend, Backend, DB, Cloud, AI), 3rd-Party Integrations, Security & Auth, Scalability, Missing Information, and 4-Phase Delivery Milestones.
+  - **Conversational Blueprint Refinement**: Allows clients to submit natural-language adjustment requests that immediately regenerate the blueprint while preserving confirmed context.
+- **Stage 3 — Category-Tailored Solution Visualizer (Interactive UX Prototype)**:
+  - Context-aware prototype engine detecting domain archetypes:
+    - *Pet Care & Veterinary Platform* (Pet parent dashboard, electronic pet health record EHR, appointment scheduler with 15-minute intervals, services directory).
+    - *E-Commerce & Storefront* (Curated catalog, faceted filter browse, PDP, customer order hub).
+    - *AI Agent Automation Console* (Execution telemetry, visual node workflow graph, semantic vector RAG hub, audit trail).
+    - *Healthcare & Clinical Desk* (Operations desk, patient EHR, doctor scheduler, telehealth triage).
+    - *PropTech & Tenant Ecosystem* (Property hub, floorplans, digital rent ledger, maintenance tickets).
+    - *SaaS Executive Dashboard* (KPI widgets, operations matrix, customer records, analytics).
+    - *Native Mobile Application* (Touch feed, quick booking, biometric concept).
+  - Desktop / Mobile responsive viewport toggle.
+  - Transparently marked as an **AI-Assisted React-Rendered Concept Prototype** for assessment review.
+- **Stage 4 — Live Solution Customization & Feedback**:
+  - Live design palette switching (*Cynbit Teal, Midnight Onyx, Electric Indigo, Clean Minimal, Emerald Mint*).
+  - One-click feature modifications (e.g. 15-minute appointment slots, emergency telehealth hotline, clinical store) that instantly re-render inside the visualizer.
+  - Concept approval marking and client design feedback capture.
+- **Stage 5 — Engineer Consultation Booking**:
+  - Option A: Schedule a 1-on-1 technical discovery session with Cynbit engineering (Channel: Google Meet, Phone, In-person; preferred date, time slot, and discussion topics).
+  - Option B: Fast-track submission directly to the commercial scope stage.
+- **Stage 6 — Commercial Preferences (Budget & Timeline)**:
+  - Captures realistic budget tiers (₹3L–₹5L, ₹5L–₹10L, ₹10L–₹25L, ₹25L+) and timeline horizons (Under 1 month, 1–3 months, 3–6 months, 6+ months).
+  - Captures complete stakeholder contact details and explicit consent timestamp.
+- **Stage 7 — Confirmation & Reference Tracking**:
+  - Issues a verifiable reference ID (e.g., `CYN-2026-XXXXXX`) and persists the entire journey to MongoDB Atlas.
 
 ---
 
 ### 3. Supporting Feature: Protected Admin Inquiry Dashboard (`/admin/dashboard`)
 - **JWT & Bcrypt Security**: Strict route protection via Authorization Bearer header.
 - **Dedicated Admin Login (`/admin/login`)**: Secure credential verification with JWT token issuance, protected against brute-force and credential exposure.
+- **Dual Lookup Engine**: Deep search and status inspection supported by both internal MongoDB `_id` and formatted reference ID (`CYN-2026-XXXXXX`).
 - **Operational Metrics**:
-  - Total Inquiries
-  - New Inquiries
-  - Inquiries Reviewing
-  - Clarification Required
-  - Qualified Inquiries
-  - Closed Inquiries
+  - Total Inquiries & Active Pipeline counts (New, Reviewing, Clarification Required, Qualified, Closed).
+  - Engineering Consultation metrics (Total Requested, Pending, Confirmed).
 - **Interactive Inquiries Table**:
-  - Live search across Client Name, Work Email, Company, and Reference ID.
+  - Live search across Client Name, Work Email, Company, Reference ID, and Consultation status.
   - Multi-status and category dropdown filters.
-  - Color-coded status pills.
-- **Slide-Over Blueprint Inspector**:
-  - Displays original adaptive discovery answers.
-  - Full AI Blueprint with modules and technical considerations.
-  - **Live Status Updater**: Instantly switch status (New → Reviewing → Clarification Required → Qualified → Closed).
-  - **Internal Notes Logger**: Add and timestamp internal engineering notes.
+- **Slide-Over Blueprint & Customer Journey Inspector**:
+  - Displays original adaptive discovery answers, business context, and contact details.
+  - Complete AI Blueprint with modules, tech architecture, and roadmap.
+  - Visual concept configuration, theme choice, and requested feature customizations.
+  - Consultation status manager (Pending → Confirmed → Completed) and internal staff notes logger.
 
 ---
 
@@ -104,8 +103,9 @@ graph TD
   User((Client Visitor)) -->|Interacts| Client[React 18 + Vite + Tailwind CSS]
   Admin((Engineering Lead)) -->|Reviews| AdminUI[Admin Dashboard /admin/dashboard]
 
-  subgraph Frontend [Client Layer - Port 3000]
-    Client -->|Route /discovery| DiscoveryEngine[Smart Project Discovery]
+  subgraph Frontend [Client Layer - Port 5173]
+    Client -->|Route /discovery| DiscoveryStudio[Cynbit AI Solution Studio]
+    DiscoveryStudio -->|Stage 3 & 4| Visualizer[Interactive Solution Visualizer]
     Client -->|Public Pages| BrandPages[Home, Services, Story, Team, etc.]
     AdminUI -->|JWT Auth| AuthCtx[AuthContext]
   end
@@ -118,12 +118,13 @@ graph TD
     AISvc[aiBlueprintService]
     
     API --> RateLimit --> ZodVal
-    AuthMdw --> AdminController[Admin Controller]
+    AuthMdw --> AdminController[Admin Controller (Dual-Lookup)]
   end
 
   subgraph External & Database
-    AISvc -->|HTTPS| GeminiAPI[Google Gemini 1.5 Flash API]
-    AISvc -->|Fallback| LocalRules[Deterministic Engine]
+    AISvc -->|Primary| GeminiAPI[Google Gemini 3.5 Flash Lite API]
+    AISvc -->|Candidate Fallback| Gemini31[Google Gemini 3.1 Flash Lite API]
+    AISvc -->|Offline Fallback| LocalRules[Deterministic Engine]
     API -->|Mongoose ODM| DB[(MongoDB Atlas / MongoMemoryServer)]
   end
 
@@ -134,11 +135,11 @@ graph TD
 | Layer | Technologies |
 | :--- | :--- |
 | **Frontend** | React 18, Vite 6, Tailwind CSS, React Router v6, Lucide React Icons |
-| **Backend** | Node.js, Express.js (ES Modules), CORS, Morgan |
+| **Backend** | Node.js, Express.js (ES Modules), CORS, Helmet, Rate Limiter |
 | **Database** | MongoDB Atlas with Mongoose ODM (Auto-fallback to `mongodb-memory-server` for zero-setup local runs) |
 | **Security** | JWT (jsonwebtoken), Bcrypt.js password hashing, Zod request schema validation, Rate Limiting |
-| **AI Integration** | Google Gemini 1.5 Flash API with domain-tailored deterministic fallback |
-| **DevOps** | Vercel (Client deployment ready), Render / Railway (Server deployment ready) |
+| **AI Integration** | Google Gemini 3.5 Flash Lite API with Gemini 3.1 Flash Lite and domain-tailored deterministic fallbacks |
+| **DevOps** | Vercel (Client deployment ready), Render (Server deployment ready) |
 
 ---
 

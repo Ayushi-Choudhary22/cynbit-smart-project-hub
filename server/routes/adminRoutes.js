@@ -5,6 +5,7 @@ import {
   getInquiries,
   getInquiryById,
   updateInquiryStatus,
+  updateConsultationStatus,
   addInternalNote,
 } from '../controllers/adminController.js';
 import { protectAdmin } from '../middleware/authMiddleware.js';
@@ -23,6 +24,7 @@ router.get('/stats', protectAdmin, getInquiryStats);
 router.get('/inquiries', protectAdmin, getInquiries);
 router.get('/inquiries/:id', protectAdmin, getInquiryById);
 router.patch('/inquiries/:id/status', protectAdmin, updateInquiryStatus);
+router.patch('/inquiries/:id/consultation', protectAdmin, updateConsultationStatus);
 router.patch('/inquiries/:id/notes', protectAdmin, addInternalNote);
 
 export default router;

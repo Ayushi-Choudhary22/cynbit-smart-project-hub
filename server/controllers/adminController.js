@@ -1,5 +1,14 @@
+import mongoose from 'mongoose';
 import Inquiry from '../models/Inquiry.js';
 import { z } from 'zod';
+
+const findInquiryByIdOrRef = async (idOrRef) => {
+  if (mongoose.Types.ObjectId.isValid(idOrRef)) {
+    const byId = await Inquiry.findById(idOrRef);
+    if (byId) return byId;
+  }
+  return await Inquiry.findOne({ referenceId: idOrRef });
+};
 
 export const getInquiryStats = async (req, res) => {
   try {
@@ -9,6 +18,17 @@ export const getInquiryStats = async (req, res) => {
     const clarificationCount = await Inquiry.countDocuments({ status: 'Clarification Required' });
     const qualifiedCount = await Inquiry.countDocuments({ status: 'Qualified' });
     const closedCount = await Inquiry.countDocuments({ status: 'Closed' });
+
+    // Consultation specific metrics
+    const totalConsultations = await Inquiry.countDocuments({ 'consultation.requested': true });
+    const pendingConsultations = await Inquiry.countDocuments({
+      'consultation.requested': true,
+      'consultation.status': 'Pending',
+    });
+    const confirmedConsultations = await Inquiry.countDocuments({
+      'consultation.requested': true,
+      'consultation.status': 'Confirmed',
+    });
 
     return res.status(200).json({
       success: true,
@@ -22,6 +42,11 @@ export const getInquiryStats = async (req, res) => {
             Qualified: qualifiedCount,
             Closed: closedCount,
           },
+          consultations: {
+            total: totalConsultations,
+            pending: pendingConsultations,
+            confirmed: confirmedConsultations,
+          },
         },
         total,
         new: newCount,
@@ -29,6 +54,11 @@ export const getInquiryStats = async (req, res) => {
         clarificationRequired: clarificationCount,
         qualified: qualifiedCount,
         closed: closedCount,
+        consultationStats: {
+          total: totalConsultations,
+          pending: pendingConsultations,
+          confirmed: confirmedConsultations,
+        },
       },
     });
   } catch (err) {
@@ -43,7 +73,7 @@ export const getInquiryStats = async (req, res) => {
 
 export const getInquiries = async (req, res) => {
   try {
-    const { status, category, search, page = 1, limit = 20 } = req.query;
+    const { status, category, search, consultationOnly, page = 1, limit = 20 } = req.query;
 
     const query = {};
 
@@ -55,6 +85,10 @@ export const getInquiries = async (req, res) => {
       query.projectCategory = category;
     }
 
+    if (consultationOnly === 'true' || consultationOnly === true) {
+      query['consultation.requested'] = true;
+    }
+
     if (search && search.trim() !== '') {
       const searchRegex = new RegExp(search.trim(), 'i');
       query.$or = [
@@ -62,6 +96,8 @@ export const getInquiries = async (req, res) => {
         { clientName: searchRegex },
         { email: searchRegex },
         { company: searchRegex },
+        { 'businessInfo.companyName': searchRegex },
+        { 'contactDetails.fullName': searchRegex },
       ];
     }
 
@@ -76,7 +112,7 @@ export const getInquiries = async (req, res) => {
       .limit(limitNum)
       .select('-discoveryAnswers -generatedBlueprint -editedBlueprint');
 
-    const inquiries = rawInquiries.map(inq => {
+    const inquiries = rawInquiries.map((inq) => {
       const obj = inq.toObject();
       return {
         ...obj,
@@ -107,10 +143,43 @@ export const getInquiries = async (req, res) => {
   }
 };
 
+const formatInquiry = (inquiry) => {
+  const obj = inquiry.toObject ? inquiry.toObject() : inquiry;
+  const bp = obj.editedBlueprint || obj.generatedBlueprint || {};
+  const overview = bp.projectOverview || bp.overview || '';
+  const problem = bp.problemStatement || bp.problem || '';
+  const solution = bp.proposedSolution || bp.solution || '';
+  const intendedUsers = bp.targetAudience || bp.intendedUsers || '';
+
+  const normalizedBp = {
+    ...bp,
+    overview,
+    projectOverview: overview,
+    problem,
+    problemStatement: problem,
+    solution,
+    proposedSolution: solution,
+    intendedUsers,
+    targetAudience: intendedUsers,
+  };
+
+  return {
+    ...obj,
+    name: obj.clientName,
+    clientName: obj.clientName,
+    category: obj.projectCategory,
+    projectCategory: obj.projectCategory,
+    answers: obj.discoveryAnswers || {},
+    discoveryAnswers: obj.discoveryAnswers || {},
+    blueprint: normalizedBp,
+    generatedBlueprint: normalizedBp,
+  };
+};
+
 export const getInquiryById = async (req, res) => {
   try {
     const { id } = req.params;
-    const inquiry = await Inquiry.findById(id);
+    const inquiry = await findInquiryByIdOrRef(id);
 
     if (!inquiry) {
       return res.status(404).json({
@@ -119,14 +188,7 @@ export const getInquiryById = async (req, res) => {
       });
     }
 
-    const obj = inquiry.toObject();
-    const formatted = {
-      ...obj,
-      name: obj.clientName,
-      category: obj.projectCategory,
-      answers: obj.discoveryAnswers,
-      blueprint: obj.editedBlueprint || obj.generatedBlueprint,
-    };
+    const formatted = formatInquiry(inquiry);
 
     return res.status(200).json({
       success: true,
@@ -164,27 +226,18 @@ export const updateInquiryStatus = async (req, res) => {
 
     const { status } = parseResult.data;
 
-    const updated = await Inquiry.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true, runValidators: true }
-    );
-
-    if (!updated) {
+    const inquiry = await findInquiryByIdOrRef(id);
+    if (!inquiry) {
       return res.status(404).json({
         success: false,
         message: 'Inquiry not found.',
       });
     }
 
-    const obj = updated.toObject();
-    const formatted = {
-      ...obj,
-      name: obj.clientName,
-      category: obj.projectCategory,
-      answers: obj.discoveryAnswers,
-      blueprint: obj.editedBlueprint || obj.generatedBlueprint,
-    };
+    inquiry.status = status;
+    await inquiry.save();
+
+    const formatted = formatInquiry(inquiry);
 
     return res.status(200).json({
       success: true,
@@ -199,6 +252,69 @@ export const updateInquiryStatus = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to update inquiry status.',
+      error: err.message,
+    });
+  }
+};
+
+const updateConsultationSchema = z.object({
+  status: z.enum(['Pending', 'Confirmed', 'Completed', 'Cancelled']),
+  notes: z.string().optional(),
+});
+
+export const updateConsultationStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const parseResult = updateConsultationSchema.safeParse(req.body);
+
+    if (!parseResult.success) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid consultation status provided.',
+        errors: parseResult.error.errors,
+      });
+    }
+
+    const { status, notes } = parseResult.data;
+    const author = req.user?.name || 'Admin';
+
+    const inquiry = await findInquiryByIdOrRef(id);
+    if (!inquiry) {
+      return res.status(404).json({
+        success: false,
+        message: 'Inquiry not found.',
+      });
+    }
+
+    inquiry.consultation = inquiry.consultation || {};
+    inquiry.consultation.status = status;
+
+    const noteText = notes
+      ? `Consultation marked as ${status}: ${notes}`
+      : `Consultation status updated to ${status}`;
+
+    inquiry.internalNotes.push({
+      note: noteText,
+      author,
+      createdAt: new Date(),
+    });
+
+    await inquiry.save();
+    const formatted = formatInquiry(inquiry);
+
+    return res.status(200).json({
+      success: true,
+      message: `Consultation status updated to ${status}.`,
+      data: {
+        inquiry: formatted,
+        ...formatted,
+      },
+    });
+  } catch (err) {
+    console.error('Error updating consultation status:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update consultation status.',
       error: err.message,
     });
   }
@@ -224,7 +340,7 @@ export const addInternalNote = async (req, res) => {
     const { note } = parseResult.data;
     const author = req.user?.name || 'Admin';
 
-    const inquiry = await Inquiry.findById(id);
+    const inquiry = await findInquiryByIdOrRef(id);
     if (!inquiry) {
       return res.status(404).json({
         success: false,
@@ -235,14 +351,7 @@ export const addInternalNote = async (req, res) => {
     inquiry.internalNotes.push({ note, author, createdAt: new Date() });
     await inquiry.save();
 
-    const obj = inquiry.toObject();
-    const formatted = {
-      ...obj,
-      name: obj.clientName,
-      category: obj.projectCategory,
-      answers: obj.discoveryAnswers,
-      blueprint: obj.editedBlueprint || obj.generatedBlueprint,
-    };
+    const formatted = formatInquiry(inquiry);
 
     return res.status(200).json({
       success: true,

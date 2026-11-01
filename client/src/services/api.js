@@ -20,17 +20,33 @@ const API_BASE = getApiBaseUrl();
 const handleResponse = async (res) => {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.message || `Request failed with status ${res.status}`);
+    const detail = data.errors && Array.isArray(data.errors) && data.errors.length > 0
+      ? data.errors.map(e => e.message || e).join('. ')
+      : (data.message || `Request failed with status ${res.status}`);
+    const err = new Error(detail);
+    err.data = data;
+    err.status = res.status;
+    err.errors = data.errors || [];
+    throw err;
   }
   return data;
 };
 
-// Public Discovery & Inquiry Endpoints
-export const generateBlueprintApi = async (category, answers) => {
+// Public Discovery, Blueprint & Inquiry Endpoints
+export const generateBlueprintApi = async (category, answers, refinementNotes = '') => {
   const res = await fetch(`${API_BASE}/discovery/blueprint`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ category, answers }),
+    body: JSON.stringify({ category, answers, refinementNotes }),
+  });
+  return handleResponse(res);
+};
+
+export const refineBlueprintApi = async (category, answers, refinementNotes) => {
+  const res = await fetch(`${API_BASE}/discovery/refine`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ category, answers, refinementNotes }),
   });
   return handleResponse(res);
 };
@@ -97,6 +113,18 @@ export const updateInquiryStatusApi = async (token, id, status) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ status }),
+  });
+  return handleResponse(res);
+};
+
+export const updateConsultationStatusApi = async (token, id, status, notes = '') => {
+  const res = await fetch(`${API_BASE}/admin/inquiries/${id}/consultation`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status, notes }),
   });
   return handleResponse(res);
 };

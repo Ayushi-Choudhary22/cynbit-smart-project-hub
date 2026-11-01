@@ -58,8 +58,8 @@ export default function Home() {
             <div className="flex flex-wrap gap-4 pt-2">
               <Link to="/discovery">
                 <button className="bg-primary text-white hover:bg-primary-hover px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg shadow-xl shadow-primary/25 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-3 group">
-                  <Compass className="w-5 h-5 text-white" />
-                  Start Smart Discovery
+                  <Sparkles className="w-5 h-5 text-white animate-spin-slow" />
+                  Discover Your Business Solution
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
                 </button>
               </Link>
@@ -71,12 +71,12 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Smart Project Hub Spotlight Pill */}
+            {/* AI Solution Studio Value Journey Pill */}
             <div className="pt-2">
               <div className="inline-flex items-center gap-3 p-3.5 px-5 rounded-2xl bg-primary/5 dark:bg-primary/10 border border-primary/20 max-w-xl">
                 <Sparkles className="w-5 h-5 text-primary dark:text-primary-dim shrink-0" />
                 <div className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                  <strong className="text-primary dark:text-primary-dim font-bold">New: Smart Solution Finder & AI Blueprint.</strong> Answer structured discovery questions to generate an editable, technical project brief instantly.
+                  <strong className="text-primary dark:text-primary-dim font-bold">Cynbit AI Solution Studio:</strong> Understand Business → Generate Blueprint → Visualize Prototype → Customize → Engineer Consultation.
                 </div>
               </div>
             </div>
@@ -85,6 +85,100 @@ export default function Home() {
           {/* Hero Right Visual */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
             <HubGraphic />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 1.5: CYNBIT AI SOLUTION STUDIO SPOTLIGHT */}
+      <section className="py-20 px-4 md:px-8 lg:px-12 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent text-left relative overflow-hidden">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="p-8 sm:p-12 md:p-16 rounded-[2.5rem] bg-white dark:bg-slate-950 border border-primary/20 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none" />
+
+            <div className="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+              <div className="lg:col-span-7 space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary dark:text-primary-dim font-mono text-xs font-bold uppercase tracking-widest">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Central Platform Experience</span>
+                </div>
+
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-headline font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                  Transform business ambiguity into an <br />
+                  <span className="text-gradient-primary">interactive software prototype.</span>
+                </h2>
+
+                <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed font-medium">
+                  Customers shouldn't have to imagine everything from a dry contact form. 
+                  Describe your operations, get an AI-reasoned architecture blueprint, inspect realistic interactive screens (E-Commerce, Pet Care, Healthcare, SaaS, PropTech), customize the palette, and connect directly with our engineering architects.
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-xs font-mono font-bold text-primary dark:text-primary-dim block">01. Discovery</span>
+                    <span className="text-[11px] text-slate-500">Progressive Q&A</span>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-xs font-mono font-bold text-primary dark:text-primary-dim block">02. Blueprint</span>
+                    <span className="text-[11px] text-slate-500">Gemini AI reasoning</span>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-xs font-mono font-bold text-primary dark:text-primary-dim block">03. Prototype</span>
+                    <span className="text-[11px] text-slate-500">Realistic screens</span>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-xs font-mono font-bold text-primary dark:text-primary-dim block">04. Consult</span>
+                    <span className="text-[11px] text-slate-500">Real engineers</span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <Link to="/discovery">
+                    <button className="bg-primary text-white hover:bg-primary-hover px-8 py-3.5 rounded-full font-bold text-sm shadow-xl shadow-primary/25 hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center gap-2">
+                      <span>Launch AI Solution Studio</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 p-6 rounded-3xl bg-slate-900 text-white border border-white/10 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-rose-500" />
+                    <div className="w-3 h-3 rounded-full bg-amber-500" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                  </div>
+                  <span className="text-[10px] font-mono text-cyan-400">cynbit.cloud/studio</span>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-slate-400 uppercase font-mono block">Selected Model</span>
+                      <span className="text-xs font-bold text-white">Bespoke Enterprise Portal</span>
+                    </div>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                      Live Preview
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5">
+                      <span className="text-[10px] text-slate-400 block">Screens</span>
+                      <span className="font-bold">4 Multi-View</span>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5">
+                      <span className="text-[10px] text-slate-400 block">Viewport</span>
+                      <span className="font-bold">Desktop & Mobile</span>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-primary/20 border border-primary/30 text-xs text-primary-fixed">
+                    ✦ Generates realistic layouts, navigation, and mock data tailored to your business sector.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

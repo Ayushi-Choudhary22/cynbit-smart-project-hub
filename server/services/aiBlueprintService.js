@@ -1,200 +1,394 @@
 import axios from 'axios';
 
 /**
- * Deterministic fallback generator that builds structured, professional project blueprints
- * based on Cynbit's 6-stage lifecycle and the visitor's specific inputs.
+ * Extracts and normalizes input data from either flat or nested discovery payload.
  */
-export const generateDeterministicBlueprint = (category, answers) => {
-  const ansMap = answers || {};
-  const problem = ansMap.problem || ansMap.businessProcess || ansMap.challenge || 'Process optimization and digital capability expansion';
-  const targetUsers = ansMap.targetAudience || ansMap.users || ansMap.stakeholders || 'Internal teams and end customers';
-  const keyFeatures = ansMap.features || ansMap.goals || ansMap.objectives || 'Core functional workflows, user management, and automation logic';
-  const currentSetup = ansMap.currentSystem || ansMap.toolsInUse || ansMap.infrastructure || 'Manual workflows and fragmented tools';
-  const concerns = ansMap.concerns || ansMap.priorities || 'Scalability, reliability, and security';
+const extractDiscoveryContext = (category = '', answers = {}) => {
+  const ans = answers || {};
+  const biz = ans.businessInfo || {};
+  const prob = ans.problemDetails || {};
+  const sol = ans.solutionRequirements || {};
 
-  let categorySpecifics = {
-    overview: `A strategic initiative to architect a high-performance digital solution for "${category}".`,
-    solutionDirection: `Engineer a modern, resilient architecture adhering to Cynbit's optimistic engineering standards, eliminating workflow friction.`,
-    functionalReqs: [
-      `User onboarding, role-based access control, and session management.`,
-      `Core transaction and operational workflows tailored to: ${keyFeatures}.`,
-      `Automated notification hub and activity auditing.`,
-      `Responsive dashboard and administrative reporting console.`
-    ],
-    techConsiderations: [
-      `Frontend: Modern React / Next.js architecture with responsive design.`,
-      `Backend: Distributed RESTful / GraphQL API services with Node.js.`,
-      `Database: Optimized document or relational schema with indexing.`,
-      `Infrastructure: Cloud-native containerized hosting with 99.9% uptime SLA.`
-    ],
-    integrations: [
-      `Secure authentication (OAuth 2.0 / JWT).`,
-      `Transactional communication (Email/SMS notifications).`,
-      `Analytics and monitoring pipeline (OpenTelemetry / Sentry).`
-    ],
-    missingInfo: [
-      `Expected concurrent user load at launch and projected 12-month peak growth.`,
-      `Specific regulatory compliance requirements (e.g., GDPR, SOC2, HIPAA, RBI if Indian fintech).`,
-      `Existing database schema or export format if migrating historic records.`,
-      `Third-party API credentials, rate limits, or sandbox environment availability.`
-    ],
-    clarifications: [
-      `Are there legacy datasets that require ETL cleanup before migration?`,
-      `Do you require real-time synchronization (WebSockets) or polling-based updates?`,
-      `What are the security and data residency criteria for cloud deployment?`
-    ],
-    nextSteps: [
-      `Stage 1 (Discovery & Audit): 45-minute technical discovery session with Cynbit senior architects.`,
-      `Stage 2 (Strategy & Blueprinting): Finalize data models, API contracts, and milestone timeline.`,
-      `Stage 3 (High-Fidelity Design): Interactive wireframes and UI design system preview.`,
-      `Stage 4 (Technical Implementation): Sprint zero repository scaffolding and core architecture build.`
-    ]
-  };
+  const companyName = biz.companyName || ans.companyName || ans.company || ans.clientName || 'The Enterprise';
+  const industry = biz.industry || ans.industry || 'Technology & Digital Business';
+  const businessDescription = biz.description || ans.businessDescription || ans.briefDescription || '';
+  const targetUsers = biz.targetAudience || ans.targetAudience || ans.intendedUsers || ans.users || 'End Customers and Administrative Staff';
+  const businessStage = biz.businessStage || ans.businessStage || ans.productState || 'Growing Business';
 
-  if (category.toLowerCase().includes('ai') || category.toLowerCase().includes('automat')) {
-    categorySpecifics = {
-      overview: `Autonomous AI automation and intelligent cognitive orchestration designed to transform: ${problem}.`,
-      solutionDirection: `Deploy an autonomous AI agent system combining LLM reasoning, RAG (Retrieval-Augmented Generation), and API tool calling to automate multi-step operations without manual human latency.`,
-      functionalReqs: [
-        `Intelligent ingestion and parsing of inputs: ${currentSetup}.`,
-        `Autonomous agent execution loop with human-in-the-loop review for edge cases.`,
-        `Real-time operational dashboard tracking token usage, latency, and success rates.`,
-        `Fallback logic and graceful degradation when upstream APIs experience rate limits.`
-      ],
-      techConsiderations: [
-        `LLM Provider: Google Gemini (gemini-3.5-flash-lite / Pro) with function-calling capabilities.`,
-        `Vector Database: Pinecone or pgvector for semantic knowledge retrieval.`,
-        `Orchestration: LangChain or custom agent state machine for deterministic task execution.`,
-        `Security: Prompt injection defense, PII sanitization, and audit logging.`
-      ],
-      integrations: [
-        `LLM API gateways (Gemini / OpenAI).`,
-        `Internal CRM, ERP, or communication tools (Slack, WhatsApp, Email).`,
-        `Document ingestion pipeline (PDF, OCR, Structured JSON).`
-      ],
-      missingInfo: [
-        `Volume of queries or documents to be processed daily/monthly.`,
-        `Acceptable latency threshold for agent decision-making (e.g. sub-second vs. async).`,
-        `Level of autonomy permitted before human escalation is mandatory.`,
-        `Historical training/reference examples for few-shot prompt tuning.`
-      ],
-      clarifications: [
-        `Will the agent require write access to production database records or read-only staging?`,
-        `What is the policy for handling out-of-domain user requests or ambiguous prompts?`
-      ],
-      nextSteps: [
-        `Stage 1 (Discovery & Audit): Process workflow mapping and prompt feasibility audit.`,
-        `Stage 2 (Strategy & Blueprinting): Design prompt graphs, tool schemas, and safety rails.`,
-        `Stage 3 (Proof of Concept): Rapid prototype validation on a 50-item sample dataset.`,
-        `Stage 4 (Production Deployment): Zero-latency pipeline rollout with live telemetry.`
-      ]
-    };
-  } else if (category.toLowerCase().includes('cloud') || category.toLowerCase().includes('infrastructure')) {
-    categorySpecifics = {
-      overview: `Enterprise-grade cloud infrastructure, modern DevOps automation, and zero-trust security architecture.`,
-      solutionDirection: `Architect a scalable, cost-optimized AWS/Azure environment with Infrastructure as Code (Terraform) and automated CI/CD deployment pipelines.`,
-      functionalReqs: [
-        `Zero-downtime rolling deployments via Docker containers.`,
-        `Automated horizontal pod autoscaling based on CPU/memory thresholds.`,
-        `Centralized log aggregation, real-time alerting, and telemetry dashboards.`,
-        `Automated database replication, backup snapshots, and disaster recovery strategy.`
-      ],
-      techConsiderations: [
-        `Cloud Provider: AWS (ECS Fargate / EKS) or Azure App Services.`,
-        `IaC: Terraform modules for repeatable, versioned infrastructure.`,
-        `CI/CD: GitHub Actions with automated linting, security scans, and deployment stages.`,
-        `Security: TLS 1.3, AWS KMS encryption at rest, VPC peering, and zero-trust IAM.`
-      ],
-      integrations: [
-        `CloudWatch / Datadog for system metrics and alerts.`,
-        `Git repository webhooks for automated test and deploy triggers.`,
-        `DNS management and CDN caching via Cloudflare / AWS CloudFront.`
-      ],
-      missingInfo: [
-        `Current monthly cloud expenditure and budget target.`,
-        `Target availability SLA (99.9% vs. 99.99% multi-region).`,
-        `Existing domain and DNS provider configuration.`
-      ],
-      clarifications: [
-        `Is this a greenfield cloud setup or a live zero-downtime database migration?`,
-        `Do you have an existing AWS/Azure organization structure or require a fresh setup?`
-      ],
-      nextSteps: [
-        `Stage 1 (Audit): Review current architecture, dependencies, and bottlenecks.`,
-        `Stage 2 (Blueprint): Terraform state architecture and network topology map.`,
-        `Stage 3 (Staging Rollout): Automated CI/CD sandbox deployment.`,
-        `Stage 4 (Production Cutover): Zero-downtime migration and live monitoring.`
-      ]
-    };
+  const problem = prob.coreProblem || ans.problem || ans.challenge || ans.businessProcess || 'Manual workflows, fragmented tools, and operational latency';
+  const difficulties = prob.difficulties || ans.difficulties || ans.painPoints || '';
+  const currentWorkflow = prob.currentWorkflow || ans.currentWorkflow || ans.currentSystem || ans.toolsInUse || 'Spreadsheets, manual handoffs, and disconnected SaaS tools';
+  const existingTools = prob.existingTools || ans.existingTools || ans.toolsInUse || 'Spreadsheets, email, messaging';
+  const improvementsWanted = prob.improvementsWanted || ans.improvementsWanted || ans.goals || 'Automate key processes, deliver a responsive customer interface, and scale reliably';
+
+  const desiredSolutions = sol.desiredSolutions || ans.desiredSolutions || (category ? [category] : ['Web Application', 'AI Automation']);
+  const keyFeatures = sol.keyFeatures || ans.features || ans.keyFeatures || 'User authentication, core operational workflow, automated notifications, executive reporting dashboard';
+  const outcomes = sol.outcomes || ans.outcomes || ans.goals || 'Higher operational efficiency, superior user experience, and measurable business growth';
+
+  // Determine appropriate UI archetype based on industry, solutions and text
+  const combinedText = `${category} ${industry} ${businessDescription} ${problem} ${JSON.stringify(desiredSolutions)}`.toLowerCase();
+  
+  let suggestedArchetype = 'saas_dashboard';
+  let suggestedScreens = [
+    { id: 'dashboard', name: 'Executive Dashboard', description: 'Real-time performance metrics, operational alerts, and workflow activity.' },
+    { id: 'operations', name: 'Operations & Workflows', description: 'Core functional management interface for daily business operations.' },
+    { id: 'records', name: 'Records & Profiles', description: 'Centralized customer/entity profiles with historical activity audits.' },
+    { id: 'analytics', name: 'Analytics & Reports', description: 'Business intelligence charts, KPI trends, and automated exportable reports.' }
+  ];
+
+  if (combinedText.includes('pet') || combinedText.includes('veterinary') || combinedText.includes('animal')) {
+    suggestedArchetype = 'pet_care';
+    suggestedScreens = [
+      { id: 'pet_dashboard', name: 'Pet Parent Dashboard', description: 'Upcoming appointments, pet health stats, and vaccination alerts.' },
+      { id: 'pet_profile', name: 'Pet Digital Profile', description: 'Complete medical records, dietary notes, and microchip identification.' },
+      { id: 'booking', name: 'Veterinary Booking', description: 'Live slot selection, clinic consultation triage, and telemedicine.' },
+      { id: 'marketplace', name: 'Services & Care Directory', description: 'Grooming, daycare, boarding reservations, and verified service providers.' }
+    ];
+  } else if (combinedText.includes('store') || combinedText.includes('e-commerce') || combinedText.includes('ecommerce') || combinedText.includes('shop') || combinedText.includes('retail')) {
+    suggestedArchetype = 'ecommerce';
+    suggestedScreens = [
+      { id: 'storefront', name: 'Storefront Homepage', description: 'Hero collections, curated product catalogs, and seasonal spotlights.' },
+      { id: 'catalog', name: 'Product Catalog & Filters', description: 'Dynamic faceted search, real-time inventory counts, and instant checkout.' },
+      { id: 'product_detail', name: 'Product Detail & Reviews', description: 'High-res image gallery, variant selection, verified reviews, and specifications.' },
+      { id: 'customer_portal', name: 'Customer Account & Orders', description: 'Order tracking timeline, digital invoices, and saved preferences.' }
+    ];
+  } else if (combinedText.includes('agent') || combinedText.includes('autonomous') || combinedText.includes('rag') || combinedText.includes('llm') || combinedText.includes('bot')) {
+    suggestedArchetype = 'ai_agent_studio';
+    suggestedScreens = [
+      { id: 'agent_console', name: 'Autonomous Agent Console', description: 'Live agent execution status, real-time token telemetry, and run throughput.' },
+      { id: 'workflow_builder', name: 'Workflow & Tool Pipeline', description: 'Visual node graph connecting LLM prompts, vector indices, and external API tool calls.' },
+      { id: 'knowledge_base', name: 'Semantic Knowledge Base', description: 'Document vectorization hub, index embeddings, and similarity search testing.' },
+      { id: 'execution_logs', name: 'Audit & Telemetry Logs', description: 'Trace execution latency, human-in-the-loop escalation, and safety filters.' }
+    ];
+  } else if (combinedText.includes('property') || combinedText.includes('tenant') || combinedText.includes('real estate') || combinedText.includes('rent')) {
+    suggestedArchetype = 'proptech';
+    suggestedScreens = [
+      { id: 'property_hub', name: 'Property Operations Hub', description: 'Occupancy rates, cash flow summaries, and overdue payment alerts.' },
+      { id: 'unit_management', name: 'Units & Floor Plans', description: 'Digital inventory of rental units, leasing status, and tenant assignments.' },
+      { id: 'rent_ledger', name: 'Rent Ledger & Invoicing', description: 'Automated rent reminders, digital payment receipts, and bank reconciliation.' },
+      { id: 'maintenance_portal', name: 'Tenant Maintenance Portal', description: 'Ticket creation, work order dispatch, and photo-verified resolutions.' }
+    ];
+  } else if (combinedText.includes('health') || combinedText.includes('clinic') || combinedText.includes('medical') || combinedText.includes('doctor') || combinedText.includes('patient')) {
+    suggestedArchetype = 'healthcare';
+    suggestedScreens = [
+      { id: 'clinic_dashboard', name: 'Clinical Operations Desk', description: 'Today appointments queue, patient triage, and emergency alerts.' },
+      { id: 'ehr_records', name: 'Electronic Health Records', description: 'HIPAA-conscious medical history, lab results, and prescription generation.' },
+      { id: 'appointment_scheduler', name: 'Intelligent Scheduling', description: 'Doctor availability calendar, automated SMS confirmations, and cancellation backfills.' },
+      { id: 'telehealth', name: 'Telehealth Consultation', description: 'Secure WebRTC video room with real-time vitals and doctor notes.' }
+    ];
+  } else if (combinedText.includes('mobile') || combinedText.includes('ios') || combinedText.includes('android')) {
+    suggestedArchetype = 'mobile_app';
+    suggestedScreens = [
+      { id: 'mobile_home', name: 'Mobile Home Feed', description: 'Touch-optimized personalized feed with quick actions and notification hub.' },
+      { id: 'mobile_explore', name: 'Explore & Search', description: 'Instant filter search with geolocation and category carousels.' },
+      { id: 'mobile_action', name: 'Core Action & Booking', description: 'Streamlined checkout/submission flow with native Apple Pay / UPI integration.' },
+      { id: 'mobile_profile', name: 'Profile & Settings', description: 'Biometric security, offline cached records, and preference settings.' }
+    ];
   }
 
-  const problemText = `Identified Core Challenge: ${problem}. Current context indicates friction with: ${currentSetup}.`;
+  return {
+    companyName,
+    industry,
+    businessDescription,
+    targetUsers,
+    businessStage,
+    problem,
+    difficulties,
+    currentWorkflow,
+    existingTools,
+    improvementsWanted,
+    desiredSolutions,
+    keyFeatures,
+    outcomes,
+    suggestedArchetype,
+    suggestedScreens
+  };
+};
+
+/**
+ * Deterministic fallback generator that builds structured, professional project blueprints
+ * matching Cynbit's 6-stage lifecycle and grounded in the visitor's specific inputs.
+ */
+export const generateDeterministicBlueprint = (category, answers, refinementNotes = '') => {
+  const ctx = extractDiscoveryContext(category, answers);
+
+  const overview = `Cynbit Architectural Blueprint for ${ctx.companyName} (${ctx.industry}): Architecting a resilient, scalable digital solution designed to resolve operational friction in ${ctx.problem.toLowerCase()}.`;
+
+  const solution = `Design and deploy a bespoke ${Array.isArray(ctx.desiredSolutions) ? ctx.desiredSolutions.join(', ') : category} platform engineered to eliminate ${ctx.difficulties || 'manual bottlenecks'} by implementing automated business logic, secure user management, and seamless integrations.`;
+
+  const functionalModules = [
+    {
+      name: 'Authentication & Role-Based Access Governance',
+      description: 'Zero-trust user session management, enterprise SSO/OAuth, multi-role permissions (Admin, Operator, Customer), and security auditing.',
+      priority: 'Core'
+    },
+    {
+      name: 'Primary Operations & Workflow Engine',
+      description: `Bespoke functional logic addressing: ${ctx.keyFeatures}. Automated status transitions, task assignments, and validation pipelines.`,
+      priority: 'Core'
+    },
+    {
+      name: 'Integrated Communication & Notification Hub',
+      description: 'Multi-channel event-driven alerts via Email, WhatsApp, and SMS for critical lifecycle triggers, status updates, and customer reminders.',
+      priority: 'High'
+    },
+    {
+      name: 'Operational Analytics & Administrative Command Console',
+      description: `Executive dashboards displaying real-time KPIs, audit trails, and automated reporting aligned with target outcome: ${ctx.outcomes}.`,
+      priority: 'High'
+    },
+    {
+      name: 'Data Ingestion & Legacy System Sync',
+      description: `Connectors to migrate or synchronize existing records from: ${ctx.existingTools} into the new high-performance data architecture.`,
+      priority: 'Phase 2'
+    }
+  ];
+
+  const userWorkflows = [
+    {
+      title: 'Customer / End-User Onboarding & Service Request',
+      steps: [
+        'User registers or logs in via secure multi-factor authentication.',
+        `User navigates intuitive interface to initiate request or explore offerings (${ctx.suggestedScreens[0].name}).`,
+        'System validates input parameters in real-time, displays live confirmation, and issues tracking reference ID.',
+        'Automated notification is dispatched to both user and internal handling team.'
+      ]
+    },
+    {
+      title: 'Internal Operational Processing & Task Resolution',
+      steps: [
+        `Operator views centralized queue in ${ctx.suggestedScreens[1].name}.`,
+        'System applies automated business rules and highlights anomalies or missing documents.',
+        'Operator approves or updates status; system propagates changes across all synchronized views.',
+        'Analytical events are logged to the audit pipeline for real-time reporting.'
+      ]
+    }
+  ];
+
+  const techArchitecture = {
+    frontend: ['React 18 / Next.js with Server-Side Rendering', 'Tailwind CSS Design System', 'Vite / Optimized Bundler', 'Lucide Vector Icons'],
+    backend: ['Node.js with Express / Fastify Microservices', 'RESTful & WebSocket Event Architecture', 'Zod Runtime Schema Validation', 'JWT / Bcrypt Security'],
+    database: ['MongoDB Atlas (Document Store) / PostgreSQL with Prisma', 'Redis In-Memory Caching for Sub-Millisecond Queries'],
+    cloudAndDevops: ['Containerized Docker Deployment (AWS ECS / Fargate)', 'GitHub Actions Automated CI/CD Pipelines', 'Cloudflare CDN Edge Caching & DDoS Shield'],
+    aiAndAutomation: ctx.desiredSolutions.some(s => s.toLowerCase().includes('ai') || s.toLowerCase().includes('agent'))
+      ? ['Google Gemini 3.5 Flash Lite API for cognitive extraction and reasoning', 'LangChain orchestration pipeline', 'Vector Database (pgvector / Pinecone) for RAG context']
+      : ['Event-driven background task queue (BullMQ / RabbitMQ)', 'Automated webhook dispatchers']
+  };
+
+  const thirdPartyIntegrations = [
+    'Secure Payment Gateway (Stripe / Razorpay for INR transactions)',
+    'Transactional Messaging (SendGrid / AWS SES for Email, Twilio / WhatsApp Business API)',
+    'Real-time Monitoring & Observability (Sentry / OpenTelemetry / CloudWatch)'
+  ];
+
+  const securityAndAuth = [
+    'Zero-trust role-based access control (RBAC) enforcing least-privilege principles.',
+    'Strict cryptographic data encryption at rest (AES-256) and in transit (TLS 1.3).',
+    'Rate-limiting, sanitization middleware, and CORS whitelisting against DDoS and injection exploits.',
+    'Comprehensive audit trails logging all critical transactional modifications.'
+  ];
+
+  const scalabilityAndExpansion = [
+    'Stateless microservice tier supporting horizontal auto-scaling during traffic spikes.',
+    'Read-replica database provisioning to handle high concurrent search and reporting queries.',
+    'Modular domain decoupling allowing individual services to evolve independently without monolith fragility.'
+  ];
+
+  const risksAndDependencies = [
+    'Data consistency during migration from existing tools (' + ctx.existingTools + ').',
+    'Third-party API rate limits and uptime SLAs for external integrations.',
+    'Client availability for sprint review cycles and acceptance sign-off.'
+  ];
+
+  const assumptionsAndMissingInfo = [
+    'Specific concurrent user volume expected at launch and peak 12-month projections.',
+    'Regulatory compliance mandates applicable to this domain (e.g. GDPR, DPDP Act 2023 for India, HIPAA if health data).',
+    'Existing database schema or export file format for historical data ingestion.'
+  ];
+
+  const implementationPhases = [
+    {
+      phase: 'Phase 1',
+      title: 'Discovery, UX Architecture & System Contracts',
+      durationEstimate: '1–2 Weeks',
+      deliverables: ['Detailed API contracts & schema specifications', 'Interactive Figma prototype & design system', 'Sprint 0 infrastructure setup']
+    },
+    {
+      phase: 'Phase 2',
+      title: 'Core Backend Engine & Database Scaffolding',
+      durationEstimate: '3–4 Weeks',
+      deliverables: ['Authentication & authorization endpoints', 'Core operational workflows & data models', 'Automated unit test coverage > 85%']
+    },
+    {
+      phase: 'Phase 3',
+      title: 'Frontend Portal & Integration Ecosystem',
+      durationEstimate: '2–3 Weeks',
+      deliverables: ['Responsive web / mobile user interfaces', 'Third-party API integrations (Payment, WhatsApp, Email)', 'Admin analytics console']
+    },
+    {
+      phase: 'Phase 4',
+      title: 'Security Auditing, Load Testing & Production Launch',
+      durationEstimate: '1–2 Weeks',
+      deliverables: ['Vulnerability & penetration test sign-off', 'Stress testing under 2x projected peak traffic', 'Production DNS cutover & zero-downtime deployment']
+    }
+  ];
+
+  const clarificationQuestions = [
+    'Do you have existing user or customer data that needs to be scrubbed and migrated at launch?',
+    'What is your target go-live date, and are there external marketing deadlines tied to the launch?',
+    'Are there specific branding guidelines, typography, or design benchmarks you want our designers to follow?'
+  ];
+
+  const suggestedNextSteps = [
+    'Schedule a 45-minute Technical Architecture Discovery Session with Cynbit Senior Engineering.',
+    'Finalize the preliminary scope of work and milestone deliverables based on this blueprint.',
+    'Sign Mutual Non-Disclosure Agreement (NDA) and issue Sprint Zero kickoff repository.',
+    'Review interactive visual prototype and approve core UX layout.'
+  ];
 
   return {
-    projectOverview: categorySpecifics.overview,
-    overview: categorySpecifics.overview,
-    problemStatement: problemText,
-    problem: problemText,
-    proposedSolution: categorySpecifics.solutionDirection,
-    solution: categorySpecifics.solutionDirection,
-    targetAudience: targetUsers,
-    intendedUsers: targetUsers,
-    functionalRequirements: categorySpecifics.functionalReqs,
-    technicalConsiderations: categorySpecifics.techConsiderations,
-    potentialIntegrations: categorySpecifics.integrations,
-    missingInformation: categorySpecifics.missingInfo,
-    clarificationQuestions: categorySpecifics.clarifications,
-    suggestedNextSteps: categorySpecifics.nextSteps,
-    engineUsed: 'deterministic-fallback',
+    // Executive and Problem Framing
+    projectOverview: overview,
+    overview: overview,
+    currentChallenges: ctx.difficulties || 'Managing business operations through fragmented spreadsheets and manual tools without centralized visibility.',
+    coreProblem: ctx.problem,
+    problemStatement: ctx.problem,
+    problem: ctx.problem,
+    proposedSolution: solution,
+    solution: solution,
+
+    // Audience & Functional Specifications
+    targetAudience: ctx.targetUsers,
+    intendedUsers: ctx.targetUsers,
+    functionalRequirements: functionalModules.map(m => `${m.name}: ${m.description}`),
+    functionalModules,
+    userWorkflows,
+
+    // Architecture & Technical Considerations
+    techArchitecture,
+    technicalConsiderations: [
+      `Frontend: ${techArchitecture.frontend.join(', ')}`,
+      `Backend: ${techArchitecture.backend.join(', ')}`,
+      `Database: ${techArchitecture.database.join(', ')}`,
+      `Cloud: ${techArchitecture.cloudAndDevops.join(', ')}`
+    ],
+    thirdPartyIntegrations,
+    potentialIntegrations: thirdPartyIntegrations,
+    aiAndAutomationOpportunities: techArchitecture.aiAndAutomation,
+    securityAndAuth,
+    scalabilityAndExpansion,
+
+    // Risks, Missing Info & Questions
+    risksAndDependencies,
+    assumptionsAndMissingInfo,
+    missingInformation: assumptionsAndMissingInfo,
+    clarificationQuestions,
+
+    // Delivery Roadmap
+    implementationPhases,
+    suggestedNextSteps,
+
+    // Visual Concept Mapping
+    suggestedArchetype: ctx.suggestedArchetype,
+    suggestedScreens: ctx.suggestedScreens,
+    archetype: ctx.suggestedArchetype,
+
+    engineUsed: refinementNotes ? 'deterministic-fallback (refined)' : 'deterministic-fallback',
+    source: 'deterministic_fallback',
     generatedAt: new Date().toISOString()
   };
 };
 
 /**
- * Generate AI Blueprint using Gemini API if configured, with automatic fallback
+ * Generate AI Blueprint using Google Gemini API with fallback
  */
-export const generateAIBlueprint = async (category, answers) => {
+export const generateAIBlueprint = async (category, answers, refinementNotes = '') => {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey || apiKey.trim() === '') {
     console.log('ℹ️ Gemini API key not configured. Using intelligent deterministic blueprint engine.');
-    return generateDeterministicBlueprint(category, answers);
+    return generateDeterministicBlueprint(category, answers, refinementNotes);
   }
 
+  const ctx = extractDiscoveryContext(category, answers);
+
   const prompt = `
-You are a Principal Software Architect at Cynbit Technologies, an elite AI automation and software engineering firm in Jaipur, India.
-A prospective client has completed our Smart Project Discovery questionnaire.
-Analyze their inputs and generate a structured, highly professional Project Blueprint in JSON format.
+You are a Principal Software Architect at Cynbit Technologies, an elite software engineering and AI automation firm in Jaipur, India.
+A prospective client has submitted their business discovery details.
+Analyze their inputs, reason deeply about their business operations, and generate a structured, comprehensive, highly professional Project Blueprint in valid JSON format.
 
-Client Category: ${category}
-Discovery Questionnaire Answers:
-${JSON.stringify(answers, null, 2)}
+Client Company: ${ctx.companyName}
+Industry: ${ctx.industry}
+Business Stage: ${ctx.businessStage}
+Business Description: ${ctx.businessDescription}
+Target Customers / Users: ${ctx.targetUsers}
+Core Problem: ${ctx.problem}
+Current Bottlenecks & Difficulties: ${ctx.difficulties}
+Current Workflow & Existing Tools: ${ctx.currentWorkflow}
+Improvements Wanted / Goals: ${ctx.improvementsWanted}
+Desired Solutions: ${JSON.stringify(ctx.desiredSolutions)}
+Key Features: ${ctx.keyFeatures}
+Desired Outcomes: ${ctx.outcomes}
+${refinementNotes ? `\nCLIENT REFINEMENT REQUEST:\nThe client reviewed a previous version and requested these specific modifications: "${refinementNotes}". Update the blueprint to address these requests directly while keeping confirmed context.` : ''}
 
-Requirements for the Blueprint:
-1. Ground the blueprint strictly in the client's actual answers.
+CRITICAL RULES:
+1. Ground the blueprint strictly in the client's actual answers. Do NOT invent company facts or commit to unconfirmed integrations.
 2. Clearly distinguish confirmed requirements from AI recommendations.
 3. Identify missing information, ambiguities, and potential technical risks.
 4. Do NOT promise exact pricing, guaranteed delivery dates, or guaranteed commercial results.
-5. Provide realistic next steps matching Cynbit's 6-stage lifecycle (Discovery, Blueprint, Design, Implementation, QA, Deployment).
+5. Do NOT recommend AI where a simpler software solution is more appropriate.
+6. Provide non-technical explanations for the business owner AND specific technical specifications for Cynbit's engineering team.
+7. Return ONLY valid, parseable JSON matching the schema below.
 
-Return ONLY valid JSON matching this exact schema:
+JSON SCHEMA:
 {
-  "overview": "Concise executive overview of the project",
-  "problem": "Summary of the business/technical problem being solved",
-  "solution": "Proposed architectural solution and direction",
-  "intendedUsers": "Target personas and stakeholders",
-  "functionalRequirements": ["List of 3-5 confirmed or required core features"],
-  "technicalConsiderations": ["List of 3-5 recommended tech stack, cloud, or security elements"],
-  "potentialIntegrations": ["List of 2-4 key third-party APIs or systems to connect"],
-  "missingInformation": ["List of 3-4 pieces of critical information still needed from the client"],
-  "clarificationQuestions": ["List of 2-3 specific technical questions for discovery call"],
-  "suggestedNextSteps": ["List of 3-4 structured next actions leading to sprint kick-off"]
+  "overview": "Executive overview of the recommended solution tailored to this specific company",
+  "currentChallenges": "Summary of current operational friction and bottlenecks",
+  "coreProblem": "The central business/technical problem being addressed",
+  "solution": "Clear architectural recommendation explaining what Cynbit will build",
+  "intendedUsers": "Target user personas and their primary responsibilities",
+  "functionalModules": [
+    {
+      "name": "Module Name (e.g. Smart Order Management)",
+      "description": "Specific functional capability and user value",
+      "priority": "Core"
+    }
+  ],
+  "userWorkflows": [
+    {
+      "title": "Workflow Name (e.g. End-to-End Service Booking)",
+      "steps": ["Step 1...", "Step 2...", "Step 3...", "Step 4..."]
+    }
+  ],
+  "techArchitecture": {
+    "frontend": ["Specific frontend technologies"],
+    "backend": ["Specific backend technologies"],
+    "database": ["Specific database technologies and indexing considerations"],
+    "cloudAndDevops": ["Specific cloud, containerization, and CI/CD tools"],
+    "aiAndAutomation": ["Specific AI models, automations, or background workers"]
+  },
+  "thirdPartyIntegrations": ["2-4 critical third-party APIs with specific purpose"],
+  "securityAndAuth": ["3-4 concrete security, authentication, and compliance measures"],
+  "scalabilityAndExpansion": ["2-3 future expansion and high-traffic considerations"],
+  "risksAndDependencies": ["2-3 technical dependencies or external risks"],
+  "assumptionsAndMissingInfo": ["3-4 critical pieces of information still needed from the client"],
+  "clarificationQuestions": ["2-3 specific technical questions for discovery call"],
+  "implementationPhases": [
+    {
+      "phase": "Phase 1",
+      "title": "Phase title",
+      "durationEstimate": "e.g. 2-3 Weeks",
+      "deliverables": ["Deliverable 1", "Deliverable 2"]
+    }
+  ],
+  "suggestedNextSteps": ["3-4 structured next actions leading to kickoff"],
+  "suggestedArchetype": "One of: 'ecommerce' | 'saas_dashboard' | 'ai_agent_studio' | 'mobile_app' | 'healthcare' | 'pet_care' | 'proptech' | 'webapp'",
+  "suggestedScreens": [
+    { "id": "screen_id", "name": "Screen Title", "description": "Short description of what is rendered on this screen" }
+  ]
 }
 `;
 
-  // Candidate models in preference order:
-  // 1. Primary: gemini-3.5-flash-lite (or custom GEMINI_MODEL override)
-  // 2. Secondary fallback: gemini-3.1-flash-lite
   const primaryModel = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
   const candidateModels = Array.from(new Set([
     primaryModel,
@@ -208,11 +402,7 @@ Return ONLY valid JSON matching this exact schema:
       const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
         {
-          contents: [
-            {
-              parts: [{ text: prompt }]
-            }
-          ],
+          contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.2,
             responseMimeType: 'application/json'
@@ -223,7 +413,7 @@ Return ONLY valid JSON matching this exact schema:
             'Content-Type': 'application/json',
             'x-goog-api-key': apiKey,
           },
-          timeout: 20000
+          timeout: 25000
         }
       );
 
@@ -231,8 +421,27 @@ Return ONLY valid JSON matching this exact schema:
       if (candidates && candidates.length > 0) {
         const text = candidates[0].content?.parts[0]?.text;
         const parsed = JSON.parse(text);
+
+        // Normalize both legacy and modern keys
         return {
           ...parsed,
+          projectOverview: parsed.overview || parsed.projectOverview,
+          problemStatement: parsed.coreProblem || parsed.problem || parsed.problemStatement,
+          problem: parsed.coreProblem || parsed.problem || parsed.problemStatement,
+          proposedSolution: parsed.solution || parsed.proposedSolution,
+          targetAudience: parsed.intendedUsers || parsed.targetAudience,
+          functionalRequirements: parsed.functionalModules ? parsed.functionalModules.map(m => `${m.name}: ${m.description}`) : (parsed.functionalRequirements || []),
+          technicalConsiderations: parsed.techArchitecture ? [
+            `Frontend: ${parsed.techArchitecture.frontend?.join(', ') || 'React / Next.js'}`,
+            `Backend: ${parsed.techArchitecture.backend?.join(', ') || 'Node.js'}`,
+            `Database: ${parsed.techArchitecture.database?.join(', ') || 'PostgreSQL / MongoDB'}`,
+            `Cloud: ${parsed.techArchitecture.cloudAndDevops?.join(', ') || 'AWS / Docker'}`
+          ] : (parsed.technicalConsiderations || []),
+          potentialIntegrations: parsed.thirdPartyIntegrations || parsed.potentialIntegrations || [],
+          missingInformation: parsed.assumptionsAndMissingInfo || parsed.missingInformation || [],
+          archetype: parsed.suggestedArchetype || ctx.suggestedArchetype,
+          suggestedArchetype: parsed.suggestedArchetype || ctx.suggestedArchetype,
+          suggestedScreens: parsed.suggestedScreens || ctx.suggestedScreens,
           engineUsed: `gemini-api (${model})`,
           modelUsed: model,
           source: 'gemini_api',
@@ -240,7 +449,6 @@ Return ONLY valid JSON matching this exact schema:
         };
       }
     } catch (err) {
-      // Capture sanitized error without leaking API key
       const status = err.response?.status;
       const apiErrMsg = err.response?.data?.error?.message || err.message;
       lastError = `${status ? `HTTP ${status}: ` : ''}${apiErrMsg}`;
@@ -249,7 +457,7 @@ Return ONLY valid JSON matching this exact schema:
   }
 
   console.warn('⚠️ All Gemini model attempts failed or API unavailable. Falling back to deterministic architectural engine.', lastError ? `Last error: ${lastError}` : '');
-  const fallback = generateDeterministicBlueprint(category, answers);
+  const fallback = generateDeterministicBlueprint(category, answers, refinementNotes);
   fallback.engineUsed = 'deterministic-fallback (Gemini unavailable)';
   fallback.source = 'deterministic_fallback';
   fallback.lastError = lastError;

@@ -436,7 +436,7 @@ export const DISCOVERY_CATEGORIES = [
     desc: 'Intelligent cognitive workflows eliminating repetitive human bottlenecks in paperwork, tickets, and data.',
     recommendation: {
       primaryService: 'AI Automation & Cognitive Process Engineering',
-      technologies: ['Gemini 1.5 Flash', 'LangChain', 'OCR Engines', 'Node.js Microservices', 'Webhook Automations'],
+      technologies: ['Gemini 3.5 Flash Lite', 'LangChain', 'OCR Engines', 'Node.js Microservices', 'Webhook Automations'],
       lifecycleFocus: 'Friction point audit, prompt tuning, human-in-the-loop review, and 99.8% precision.',
     },
     questions: [

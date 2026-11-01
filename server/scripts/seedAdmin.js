@@ -103,7 +103,7 @@ export const seedDatabase = async () => {
               'Real-time admin audit trail for regulatory compliance.'
             ],
             technicalConsiderations: [
-              'Gemini 1.5 Flash Vision for multi-modal document understanding.',
+              'Gemini 3.5 Flash Lite Vision for multi-modal document understanding.',
               'Node.js microservices deployed on AWS ECS with zero-trust KMS encryption.',
               'PostgreSQL with encrypted JSONB fields for audit immutability.'
             ],
